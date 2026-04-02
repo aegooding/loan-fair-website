@@ -1,0 +1,84 @@
+/* =====================================================
+   PRIVACY PAGE
+   ===================================================== */
+
+/* ===========================
+   HERO
+   =========================== */
+.privacy-hero {
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+/* ===========================
+   BODY
+   =========================== */
+.privacy-body__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 760px;
+}
+
+/* ===========================
+   SECTION
+   =========================== */
+.privacy-section {
+  border-top: 1px solid rgba(236, 219, 186, 0.12);
+  padding-top: 2.5rem;
+}
+
+.privacy-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.privacy-section__title {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 1.25rem;
+}
+
+/* ===========================
+   BODY TEXT
+   =========================== */
+.privacy-section__body p {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.privacy-section__body p:last-child {
+  margin-bottom: 0;
+}
+
+.privacy-section__body ul,
+.privacy-section__body ol {
+  margin: 0.75rem 0 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.privacy-section__body li {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+.privacy-section__body a {
+  color: var(--sand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-section__body a:hover {
+  opacity: 0.8;
+}

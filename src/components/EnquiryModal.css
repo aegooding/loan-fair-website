@@ -1,0 +1,626 @@
+/* =====================================================
+   ENQUIRY MODAL
+   ===================================================== */
+
+/* ===========================
+   SCRIM (the dark overlay behind the modal)
+   =========================== */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: scrimIn 200ms ease forwards;
+}
+
+@keyframes scrimIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===========================
+   MODAL BOX
+   =========================== */
+.modal {
+  background: var(--green-dark);
+  border: 1px solid rgba(236, 219, 186, 0.18);
+  border-radius: var(--radius-brand);
+  padding: 2.75rem 2.5rem;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalIn 200ms ease forwards;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===========================
+   CLOSE BUTTON
+   =========================== */
+.modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--cream);
+  opacity: 0.5;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: opacity 150ms ease;
+}
+
+.modal__close:hover { opacity: 1; }
+
+/* ===========================
+   PROGRESS BAR
+   =========================== */
+.modal__progress {
+  height: 3px;
+  background: rgba(236, 219, 186, 0.15);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.modal__progress-fill {
+  height: 100%;
+  background: var(--sand);
+  border-radius: 2px;
+  transition: width 300ms ease;
+}
+
+/* ===========================
+   STEP HEADER
+   =========================== */
+.modal__step-label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+
+.modal__title {
+  font-size: 1.75rem;
+  color: var(--cream);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.modal__intro {
+  font-size: 0.9rem;
+  color: var(--cream);
+  opacity: 0.7;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+/* ===========================
+   FORM ELEMENTS
+   =========================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+/* Tighter grid for year/month pairs */
+.form-row--tight {
+  grid-template-columns: 1fr 1fr;
+  max-width: 320px;
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+
+.form-label--sub {
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.form-label--error {
+  color: var(--sand);
+}
+
+.form-label-optional {
+  font-weight: 400;
+  opacity: 0.55;
+}
+
+/* Section divider within a step */
+.form-section-heading {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  opacity: 0.8;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.12);
+}
+
+/* Hint text for conditional sections */
+.form-hint {
+  font-size: 0.82rem;
+  color: var(--sand);
+  opacity: 0.85;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Indented block for conditional sub-sections */
+.form-group--indented {
+  border-left: 2px solid rgba(236, 219, 186, 0.2);
+  padding-left: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-input {
+  background: rgba(53, 104, 82, 0.5);
+  border: 1px solid rgba(236, 219, 186, 0.25);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: rgba(236, 219, 186, 0.35);
+}
+
+.form-input:focus {
+  border-color: var(--cream);
+  box-shadow: 0 0 0 3px rgba(236, 219, 186, 0.12);
+}
+
+.form-input--error {
+  border-color: var(--sand);
+}
+
+.form-input--error:focus {
+  box-shadow: 0 0 0 3px rgba(236, 219, 186, 0.15);
+}
+
+/* Narrow input for small numbers (dependants, years etc.) */
+.form-input--narrow {
+  max-width: 100px;
+}
+
+/* Select arrow */
+select.form-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ecdbba' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: var(--sand);
+  font-weight: 500;
+}
+
+.form-error--global {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ===========================
+   TOGGLE BUTTON GROUP
+   =========================== */
+.toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toggle-group--error .toggle-btn {
+  border-color: rgba(236, 219, 186, 0.4);
+}
+
+.toggle-btn {
+  background: rgba(53, 104, 82, 0.4);
+  border: 1px solid rgba(236, 219, 186, 0.2);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.toggle-btn:hover {
+  border-color: rgba(236, 219, 186, 0.5);
+  background: rgba(53, 104, 82, 0.7);
+}
+
+.toggle-btn--active {
+  background: var(--sand);
+  border-color: var(--sand);
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* ===========================
+   CHECKBOX
+   =========================== */
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--cream);
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+.form-checkbox input[type="checkbox"] {
+  flex-shrink: 0;
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--sand);
+  cursor: pointer;
+}
+
+.form-checkbox--error { color: var(--sand); }
+
+.form-text-link {
+  color: var(--sand);
+  text-decoration: underline;
+}
+
+/* Grid layout for other income checkboxes */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1rem;
+}
+
+/* Grid of age inputs for dependants */
+.dependant-ages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ===========================
+   $ PREFIX INPUT
+   =========================== */
+.input-prefix-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 14px;
+  color: var(--cream);
+  opacity: 0.6;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.input-prefix-input {
+  padding-left: 28px;
+}
+
+/* ===========================
+   INCOME ROW (amount + frequency)
+   =========================== */
+.income-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.income-row .input-prefix-wrap {
+  flex: 1;
+}
+
+.income-freq-select {
+  width: 140px;
+  flex-shrink: 0;
+}
+
+/* ===========================
+   EXPENSE TABLES
+   =========================== */
+.expense-section {
+  margin-bottom: 1.75rem;
+}
+
+.expense-section__heading {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  opacity: 0.8;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.12);
+}
+
+.expense-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.06);
+}
+
+.expense-row__label {
+  font-size: 0.875rem;
+  color: var(--cream);
+  opacity: 0.8;
+  flex: 1;
+  min-width: 0;
+}
+
+.expense-row__inputs {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.expense-row__amount-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 90px;
+}
+
+.expense-row__dollar {
+  position: absolute;
+  left: 10px;
+  color: var(--cream);
+  opacity: 0.5;
+  font-size: 0.88rem;
+  pointer-events: none;
+}
+
+.expense-row__amount {
+  padding-left: 22px;
+  padding-right: 6px;
+  font-size: 0.88rem;
+}
+
+.expense-row__freq {
+  width: 100px;
+  font-size: 0.82rem;
+  padding: 9px 28px 9px 10px;
+}
+
+/* Running total rows */
+.expense-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(236, 219, 186, 0.18);
+  font-size: 0.82rem;
+  color: var(--cream);
+  opacity: 0.7;
+}
+
+.expense-total__amount {
+  font-weight: 700;
+  color: var(--sand);
+  opacity: 1;
+}
+
+/* Overall total */
+.expense-overall-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(236, 219, 186, 0.08);
+  border: 1px solid rgba(236, 219, 186, 0.2);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.expense-overall-total__amount {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--sand);
+}
+
+/* ===========================
+   STEP NAVIGATION
+   =========================== */
+.modal__step-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.modal__next {
+  width: 100%;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+.modal__submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===========================
+   SUCCESS STATE
+   =========================== */
+.modal__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.modal__success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(236, 219, 186, 0.12);
+  border: 2px solid var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+}
+
+.modal__success-heading {
+  font-size: 2rem;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+.modal__success-body {
+  color: var(--cream);
+  opacity: 0.75;
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 36ch;
+}
+
+.modal__whats-next {
+  margin-top: 2rem;
+  background: rgba(236, 219, 186, 0.08);
+  border: 1px solid rgba(236, 219, 186, 0.18);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  max-width: 36ch;
+}
+
+.modal__whats-next__heading {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 0.6rem;
+}
+
+.modal__whats-next__body {
+  font-size: 0.875rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+.modal__done-btn { margin-top: 2rem; }
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 480px) {
+  .modal {
+    padding: 2rem 1.25rem;
+    border-radius: 0 16px 0 0;
+    align-self: flex-end;
+    max-height: 92vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .expense-row__inputs {
+    width: 100%;
+  }
+
+  .expense-row__amount-wrap {
+    flex: 1;
+    width: auto;
+  }
+
+  .expense-row__freq {
+    width: 110px;
+  }
+
+  .income-row {
+    flex-direction: column;
+  }
+
+  .income-freq-select {
+    width: 100%;
+  }
+
+  .modal__step-nav {
+    flex-direction: column-reverse;
+  }
+
+  .modal__step-nav .btn-secondary {
+    text-align: center;
+    justify-content: center;
+  }
+}

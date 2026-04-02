@@ -1,0 +1,401 @@
+/* =====================================================
+   HOME PAGE
+   ===================================================== */
+
+/* ===========================
+   SHARED SECTION UTILITIES (used across home page sections)
+   =========================== */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 0.75rem;
+}
+
+.section-heading {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  color: var(--cream);
+  margin-bottom: 3rem;
+  max-width: 20ch;
+}
+
+/* ===========================
+   HERO
+   =========================== */
+.hero {
+  background-color: var(--green);
+  /* Tall enough to fill the viewport; 72px accounts for the fixed nav */
+  min-height: 100vh;
+  padding-top: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+}
+
+.hero__content {
+  max-width: 580px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Staggered entrance animation: headline → sub → CTAs */
+.hero__headline {
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  animation: fadeUp 600ms ease-out 100ms both;
+}
+
+.hero__sub {
+  font-size: 1.1rem;
+  color: var(--cream);
+  opacity: 0.82;
+  max-width: 48ch;
+  line-height: 1.7;
+  margin-top: 1.5rem;
+  animation: fadeUp 600ms ease-out 250ms both;
+}
+
+.hero__ctas {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+  animation: fadeUp 600ms ease-out 400ms both;
+}
+
+.hero__cta-primary {
+  font-size: 1.05rem;
+  padding: 15px 36px;
+}
+
+.hero__cta-link {
+  color: var(--cream);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 150ms ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.hero__cta-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--cream);
+  transition: width 200ms ease;
+}
+
+.hero__cta-link:hover {
+  opacity: 1;
+}
+
+.hero__cta-link:hover::after {
+  width: 100%;
+}
+
+/* Decorative cut-corner shape — echoes the logo badge motif */
+.hero__shape {
+  position: absolute;
+  right: -8vw;
+  top: 15%;
+  width: clamp(280px, 38vw, 560px);
+  height: clamp(280px, 38vw, 560px);
+  background: var(--green-dark);
+  border-radius: 0 18% 0 18%;
+  opacity: 0.6;
+  flex-shrink: 0;
+  animation: fadeUp 800ms ease-out 200ms both;
+}
+
+/* Entry animation keyframes */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   PROBLEM STRIP
+   Cream background — maximum contrast
+   =========================== */
+.problem {
+  padding: var(--section-padding) 0;
+}
+
+.problem__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.problem__statement {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  max-width: 26ch;
+}
+
+.problem__statement--accent {
+  color: var(--green-dark);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  margin-top: 0.5rem;
+}
+
+/* ===========================
+   HOW IT WORKS SUMMARY
+   =========================== */
+.how-it-works {
+  padding: var(--section-padding) 0;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.step-card {
+  background: rgba(53, 104, 82, 0.55);
+  border: 1px solid rgba(236, 219, 186, 0.12);
+  border-radius: var(--radius-brand);
+  padding: 2.25rem 2rem;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(236, 219, 186, 0.3);
+}
+
+.step-card__num {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--sand);
+  opacity: 0.9;
+  line-height: 1;
+  display: block;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.step-card__heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 0.65rem;
+}
+
+.step-card__body {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.65;
+}
+
+/* ===========================
+   PRINCIPLES
+   =========================== */
+.principles {
+  padding: var(--section-padding) 0;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.principle-card {
+  background: rgba(53, 104, 82, 0.45);
+  border: 1px solid rgba(236, 219, 186, 0.1);
+  border-radius: var(--radius-brand);
+  padding: 2rem 2.25rem;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.principle-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(236, 219, 186, 0.28);
+}
+
+.principle-card__heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+
+.principle-card__body {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* ===========================
+   TRANSPARENCY CALLOUT
+   Sand background — the money shot
+   =========================== */
+.transparency {
+  padding: var(--section-padding) 0;
+}
+
+.transparency__inner {
+  max-width: 800px;
+}
+
+.transparency__label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  opacity: 0.6;
+  margin-bottom: 1.25rem;
+}
+
+.transparency__headline {
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  margin-bottom: 1.5rem;
+}
+
+.transparency__body {
+  font-size: 1.1rem;
+  color: var(--green);
+  opacity: 0.78;
+  max-width: 52ch;
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+}
+
+/* Primary button on sand bg — inverted to green */
+.transparency__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--green);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px 32px;
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.transparency__cta:hover {
+  transform: scale(1.03);
+  background: var(--green-dark);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ===========================
+   FINAL CTA
+   =========================== */
+.final-cta {
+  padding: var(--section-padding) 0;
+}
+
+.final-cta__inner {
+  text-align: center;
+}
+
+.final-cta__headline {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+}
+
+.final-cta__sub {
+  font-size: 1rem;
+  color: var(--cream);
+  opacity: 0.65;
+  margin-bottom: 2.5rem;
+}
+
+.final-cta__btn {
+  font-size: 1.1rem;
+  padding: 16px 40px;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 1024px) {
+  .steps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .principles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__inner {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+
+  .hero__shape {
+    display: none;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__ctas {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__cta-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}

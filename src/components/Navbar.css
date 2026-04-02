@@ -1,0 +1,189 @@
+/* =====================================================
+   NAVBAR
+   ===================================================== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  /* Transparent by default — the page bg shows through */
+  transition: background 280ms ease, backdrop-filter 280ms ease;
+}
+
+/* After scrolling 80px: frosted glass effect */
+.navbar--scrolled {
+  background: rgba(53, 104, 82, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(236, 219, 186, 0.08);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 1.5rem;
+}
+
+/* ===========================
+   LOGO
+   =========================== */
+.navbar__logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__logo img {
+  height: 57px;
+  width: auto;
+}
+
+/* ===========================
+   DESKTOP NAV LINKS
+   =========================== */
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+.navbar__link {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 180ms ease, opacity 180ms ease;
+  opacity: 0.85;
+}
+
+.navbar__link:hover {
+  opacity: 1;
+  border-bottom-color: rgba(236, 219, 186, 0.4);
+}
+
+/* Active page gets a sand-coloured underline */
+.navbar__link--active {
+  opacity: 1;
+  border-bottom-color: var(--sand) !important;
+}
+
+/* ===========================
+   DESKTOP CTA
+   =========================== */
+.navbar__cta {
+  margin-left: 0.75rem;
+  padding: 10px 22px;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+
+/* ===========================
+   HAMBURGER BUTTON (mobile only)
+   =========================== */
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+}
+
+.navbar__hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--cream);
+  border-radius: 2px;
+  transition: transform 250ms ease, opacity 250ms ease;
+  transform-origin: center;
+}
+
+/* Animate the three bars into an × when open */
+.navbar__hamburger--open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__hamburger--open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar__hamburger--open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ===========================
+   MOBILE OVERLAY MENU
+   =========================== */
+.navbar__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--green);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+  z-index: 199; /* below the header bar */
+}
+
+.navbar__overlay--open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.navbar__overlay-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.navbar__overlay-link {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: color 150ms ease;
+}
+
+.navbar__overlay-link:hover,
+.navbar__overlay-link:focus-visible {
+  color: var(--sand);
+}
+
+.navbar__overlay-cta {
+  padding: 14px 40px;
+  font-size: 1.05rem;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  /* Hide desktop nav and CTA on mobile */
+  .navbar__nav,
+  .navbar__cta {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: flex;
+  }
+}

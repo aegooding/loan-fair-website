@@ -1,0 +1,13 @@
+{
+  "name": "loan-fair-website",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "loan-fair-website",
+      "version": "1.0.0",
+      "devDependencies": {}
+    }
+  }
+}

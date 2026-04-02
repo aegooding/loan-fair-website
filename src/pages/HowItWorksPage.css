@@ -1,0 +1,163 @@
+/* =====================================================
+   HOW IT WORKS PAGE
+   ===================================================== */
+
+/* ===========================
+   HERO
+   =========================== */
+.hiw-hero {
+  /* Extra top padding to clear the fixed nav */
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+/* ===========================
+   STEPS LIST
+   =========================== */
+.hiw-steps {
+  padding: var(--section-padding) 0;
+}
+
+.hiw-steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hiw-step {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 3.5rem 0;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.08);
+  position: relative;
+}
+
+.hiw-step:last-child {
+  border-bottom: none;
+}
+
+/* The big decorative step number — sits behind as a background element */
+.hiw-step__num-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hiw-step__num {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 900;
+  color: var(--sand);
+  opacity: 0.25;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.hiw-step__content {
+  padding-top: 0.5rem;
+}
+
+.hiw-step__heading {
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 0.75rem;
+}
+
+.hiw-step__body {
+  font-size: 1.05rem;
+  color: var(--cream);
+  opacity: 0.72;
+  line-height: 1.7;
+  max-width: 52ch;
+}
+
+/* ===========================
+   HOW WE MAKE MONEY CALLOUT
+   =========================== */
+.hiw-money {
+  padding: var(--section-padding) 0;
+}
+
+.hiw-money__card {
+  background: rgba(53, 104, 82, 0.5);
+  border: 1px solid rgba(236, 219, 186, 0.15);
+  border-top: 4px solid var(--sand);
+  border-radius: var(--radius-brand);
+  padding: 2.75rem 3rem;
+  max-width: 680px;
+}
+
+.hiw-money__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 1.75rem;
+}
+
+.hiw-money__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hiw-money__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 1rem;
+  color: var(--cream);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.hiw-money__tick {
+  color: var(--sand);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ===========================
+   CTA
+   =========================== */
+.hiw-cta__inner {
+  text-align: center;
+}
+
+.hiw-cta__headline {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+
+.hiw-cta__btn {
+  font-size: 1.1rem;
+  padding: 16px 40px;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .hiw-step {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 2.5rem 0;
+  }
+
+  .hiw-step__num {
+    font-size: 3.5rem;
+    opacity: 0.2;
+  }
+
+  .hiw-money__card {
+    padding: 2rem;
+  }
+}

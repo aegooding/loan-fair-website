@@ -1,0 +1,498 @@
+// ============================================================
+// LOAN FAIR PLATFORM — Database Schema v2
+// Phase 1: Car Loans only. Architected to expand to personal
+// loans, home loans etc. in future phases.
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+ directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  BROKER
+  CLIENT
+}
+
+// Phase 1: Car loans only
+// Phase 2+: Add PERSONAL_LOAN, HOME_LOAN, INVESTMENT_LOAN etc.
+enum LoanType {
+  // ── Phase 1 (Live) ──
+  CAR_LOAN_NEW
+  CAR_LOAN_USED
+  CAR_LOAN_REFINANCE
+
+  // ── Phase 2 (Coming soon — do not enable in UI yet) ──
+  PERSONAL_LOAN
+  HOME_LOAN
+  INVESTMENT_LOAN
+  COMMERCIAL
+}
+
+enum VehicleCondition {
+  NEW
+  DEMO
+  USED
+}
+
+enum VehicleType {
+  PASSENGER
+  SUV
+  COMMERCIAL_LIGHT
+  COMMERCIAL_HEAVY
+  MOTORCYCLE
+  ELECTRIC
+  HYBRID
+  CARAVAN
+  BOAT
+}
+
+enum SaleType {
+  DEALER
+  PRIVATE
+  AUCTION
+}
+
+enum EmploymentStatus {
+  FULL_TIME
+  PART_TIME
+  SELF_EMPLOYED
+  CONTRACTOR
+  CASUAL
+  UNEMPLOYED
+  RETIRED
+  BENEFITS
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  DOCS_REQUESTED
+  DOCS_RECEIVED
+  SUBMITTED
+  CONDITIONALLY_APPROVED
+  APPROVED
+  SETTLED
+  DECLINED
+  WITHDRAWN
+}
+
+enum ApplicationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  CONDITIONALLY_APPROVED
+  APPROVED
+  DECLINED
+  WITHDRAWN
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum CreditBureau {
+  EQUIFAX
+  EXPERIAN
+  ILLION
+}
+
+enum RateType {
+  VARIABLE
+  FIXED_1Y
+  FIXED_2Y
+  FIXED_3Y
+  FIXED_4Y
+  FIXED_5Y
+  INTEREST_ONLY
+}
+
+enum DocumentType {
+  DRIVERS_LICENCE
+  PASSPORT
+  MEDICARE_CARD
+  PAYSLIP
+  TAX_RETURN
+  NOA
+  BAS
+  BANK_STATEMENT
+  EMPLOYMENT_CONTRACT
+  DEALER_INVOICE
+  VEHICLE_REGISTRATION
+  REDBOOK_VALUATION
+  GLASS_VALUATION
+  REGO_PAPERS
+  CREDIT_REPORT
+  OTHER
+}
+
+enum WebhookStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  RETRYING
+}
+
+// ─────────────────────────────────────────
+// USERS & BROKERS
+// ─────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  phone        String?
+  role         Role     @default(CLIENT)
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  broker            Broker?
+  client            Client?
+  enquiriesCreated  Enquiry[]  @relation("CreatedBy")
+  enquiriesAssigned Enquiry[]  @relation("AssignedBroker")
+  notes             Note[]
+  auditLogs         AuditLog[]
+}
+
+model Broker {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  licenceNumber String   @unique
+  company       String?
+  crmRef        String?
+  createdAt     DateTime @default(now())
+}
+
+// ─────────────────────────────────────────
+// CLIENTS
+// ─────────────────────────────────────────
+
+model Client {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  dateOfBirth      DateTime?
+  address          String?
+  city             String?
+  state            String?
+  postcode         String?
+  country          String           @default("AU")
+  residencyStatus  String?
+
+  employmentStatus EmploymentStatus?
+  employerName     String?
+  employmentYears  Float?
+  annualIncome     Float?
+  otherIncome      Float?
+  monthlyExpenses  Float?
+  existingDebts    Float?
+
+  creditScore     Int?
+  creditBureau    CreditBureau?
+  creditCheckedAt DateTime?
+
+  crmClientId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  enquiries    Enquiry[]
+  creditChecks CreditCheck[]
+  documents    Document[]
+}
+
+// ─────────────────────────────────────────
+// CREDIT CHECKS
+// ─────────────────────────────────────────
+
+model CreditCheck {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id])
+
+  score         Int
+  bureau        CreditBureau
+  reportRef     String?
+
+  defaults      Int   @default(0)
+  defaultAmount Float @default(0)
+  enquiries     Int   @default(0)
+  bankruptcies  Int   @default(0)
+  judgements    Int   @default(0)
+  clearouts     Int   @default(0)
+
+  pulledAt  DateTime @default(now())
+  expiresAt DateTime
+  rawReport Json?
+
+  @@index([clientId, pulledAt])
+}
+
+// ─────────────────────────────────────────
+// ENQUIRIES
+// ─────────────────────────────────────────
+
+model Enquiry {
+  id        String @id @default(cuid())
+  reference String @unique
+
+  clientId       String
+  client         Client @relation(fields: [clientId], references: [id])
+  createdById    String
+  createdBy      User   @relation("CreatedBy", fields: [createdById], references: [id])
+  assignedUserId String?
+  assignedUser   User?  @relation("AssignedBroker", fields: [assignedUserId], references: [id])
+
+  loanType    LoanType
+  loanAmount  Float
+  loanTerm    Int?
+  loanPurpose String?
+
+  // Car loan specifics
+  vehicleMake       String?
+  vehicleModel      String?
+  vehicleYear       Int?
+  vehicleKms        Int?
+  vehicleCondition  VehicleCondition?
+  vehicleType       VehicleType?
+  saleType          SaleType?
+  dealerName        String?
+  dealerABN         String?
+  dealerState       String?
+
+  vehicleGlassValue Float?
+  vehicleOdometer   Int?
+
+  deposit           Float?
+  tradeInValue      Float?
+  tradeInOwing      Float?
+  netAmountFinanced Float?
+  balloonAmount     Float?
+  balloonPercent    Float?
+  ltvRatio          Float?
+
+  status   EnquiryStatus @default(NEW)
+  priority Priority      @default(NORMAL)
+
+  // AI results
+  aiScore              Float?
+  aiGrade              String?
+  aiSummary            String?
+  aiFlags              String[]
+  aiStrengths          String[]
+  aiRisks              String[]
+  aiRecommendedLenders String[]
+  aiLastRun            DateTime?
+
+  crmEnquiryId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  documents     Document[]
+  applications  Application[]
+  notes         Note[]
+  webhookEvents WebhookEvent[]
+
+  @@index([status, loanType])
+  @@index([clientId])
+}
+
+// ─────────────────────────────────────────
+// DOCUMENTS
+// ─────────────────────────────────────────
+
+model Document {
+  id        String   @id @default(cuid())
+  enquiryId String?
+  enquiry   Enquiry? @relation(fields: [enquiryId], references: [id])
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+
+  name        String
+  type        DocumentType
+  storagePath String
+  mimeType    String
+  sizeBytes   Int
+
+  aiExtracted  Json?
+  aiConfidence Float?
+
+  uploadedAt DateTime  @default(now())
+  expiresAt  DateTime?
+
+  @@index([clientId, type])
+}
+
+// ─────────────────────────────────────────
+// LENDERS
+// ─────────────────────────────────────────
+
+model Lender {
+  id      String  @id @default(cuid())
+  name    String
+  slug    String  @unique
+  logoUrl String?
+  active  Boolean @default(true)
+
+  supportedLoanTypes LoanType[]
+
+  apiEndpoint     String?
+  apiKeyEncrypted String?
+  webhookUrl      String?
+  integrationMeta Json?
+
+  policy    Json?
+  carPolicy Json?
+
+  guidelinesText  String?
+  guidelinesUrl   String?
+  policyUpdatedAt DateTime?
+  policyVersion   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  applications Application[]
+  rateMatrix   LenderRateMatrix[]
+
+  @@index([active])
+}
+
+// ─────────────────────────────────────────
+// LENDER RATE MATRIX
+// ─────────────────────────────────────────
+
+model LenderRateMatrix {
+  id       String @id @default(cuid())
+  lenderId String
+  lender   Lender @relation(fields: [lenderId], references: [id])
+
+  loanType LoanType
+
+  minCreditScore Int
+  maxCreditScore Int
+
+  minLtv Float
+  maxLtv Float
+
+  vehicleCondition VehicleCondition?
+
+  baseRate Float
+  compRate Float?
+  rateType RateType @default(FIXED_3Y)
+
+  validFrom DateTime  @default(now())
+  validTo   DateTime?
+
+  note String?
+
+  createdAt DateTime @default(now())
+
+  @@index([lenderId, loanType, validTo])
+}
+
+// ─────────────────────────────────────────
+// APPLICATIONS
+// ─────────────────────────────────────────
+
+model Application {
+  id        String  @id @default(cuid())
+  enquiryId String
+  enquiry   Enquiry @relation(fields: [enquiryId], references: [id])
+  lenderId  String
+  lender    Lender  @relation(fields: [lenderId], references: [id])
+
+  status      ApplicationStatus @default(DRAFT)
+  submittedAt DateTime?
+
+  quotedRate     Float?
+  quotedCompRate Float?
+
+  offeredRate     Float?
+  offeredCompRate Float?
+  offeredAmount   Float?
+  offeredTerm     Int?
+  conditions      String?
+  lenderRef       String?
+  lenderResponse  Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([enquiryId, lenderId])
+  @@index([lenderId, status])
+}
+
+// ─────────────────────────────────────────
+// NOTES
+// ─────────────────────────────────────────
+
+model Note {
+  id        String   @id @default(cuid())
+  enquiryId String?
+  enquiry   Enquiry? @relation(fields: [enquiryId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  content   String
+  internal  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([enquiryId])
+}
+
+// ─────────────────────────────────────────
+// WEBHOOK EVENTS
+// ─────────────────────────────────────────
+
+model WebhookEvent {
+  id        String   @id @default(cuid())
+  enquiryId String?
+  enquiry   Enquiry? @relation(fields: [enquiryId], references: [id])
+
+  target      String
+  event       String
+  payload     Json
+  status      WebhookStatus @default(PENDING)
+  attempts    Int           @default(0)
+  lastAttempt DateTime?
+  error       String?
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
+}
+
+// ─────────────────────────────────────────
+// AUDIT LOG
+// ─────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  action     String
+  entityId   String?
+  entityType String?
+  meta       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityId, entityType])
+  @@index([userId, createdAt])
+}

@@ -1,0 +1,136 @@
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+
+const api = async (path, options = {}) => {
+  const token = localStorage.getItem('lf_token');
+  const res = await fetch(`${BASE_URL}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Something went wrong');
+  return data;
+};
+
+const toAnnual = (amount, frequency) => {
+  const n = parseFloat(amount) || 0;
+  switch (frequency) {
+    case 'Weekly':      return n * 52;
+    case 'Fortnightly': return n * 26;
+    case 'Monthly':     return n * 12;
+    case 'Quarterly':   return n * 4;
+    case 'Annually':    return n;
+    default:            return n * 12;
+  }
+};
+
+const toMonthly = (amount, frequency) => {
+  const n = parseFloat(amount) || 0;
+  switch (frequency) {
+    case 'Weekly':      return (n * 52) / 12;
+    case 'Fortnightly': return (n * 26) / 12;
+    case 'Monthly':     return n;
+    case 'Quarterly':   return n / 3;
+    case 'Annually':    return n / 12;
+    default:            return 0;
+  }
+};
+
+const expenseTotal = (expenses) =>
+  Object.values(expenses).reduce(
+    (sum, { amount, frequency }) => sum + toMonthly(amount, frequency),
+    0
+  );
+
+const mapEmploymentType = (type) => {
+  const map = {
+    'Full time':              'FULL_TIME',
+    'Part time':              'PART_TIME',
+    'Casual':                 'CASUAL',
+    'Contractor':             'CONTRACTOR',
+    'Self employed':          'SELF_EMPLOYED',
+    'Not currently employed': 'UNEMPLOYED',
+    'Other':                  'FULL_TIME',
+  };
+  return map[type] || 'FULL_TIME';
+};
+
+const mapVehicleCondition = (condition) => {
+  const map = { 'New': 'NEW', 'Demo': 'DEMO', 'Used': 'USED' };
+  return map[condition] || 'USED';
+};
+
+export const submitEnquiryToBackend = async (form) => {
+  // Step 1 — Register user and get clientId back in one step
+  let clientId;
+
+  try {
+    const registerRes = await api('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: form.email,
+        name: `${form.firstName} ${form.lastName}`,
+        phone: form.mobile,
+        password: Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2),
+        role: 'CLIENT',
+      }),
+    });
+    localStorage.setItem('lf_token', registerRes.data.token);
+    clientId = registerRes.data.clientId;
+  } catch (err) {
+    // If email already registered, try logging in instead
+    if (err.message.includes('already registered')) {
+      throw new Error('This email is already registered. Please use a different email address.');
+    }
+    throw err;
+  }
+
+  if (!clientId) {
+    throw new Error('Could not create client profile. Please try again.');
+  }
+
+  // Step 2 — Calculate financials
+  const monthlyExpenses =
+    expenseTotal(form.fixedExpenses) + expenseTotal(form.discretionaryExpenses);
+  const annualIncome = toAnnual(form.afterTaxIncome, form.incomeFrequency);
+  const partnerAnnualIncome = form.partnerIncome
+    ? toAnnual(form.partnerIncome, form.partnerIncomeFrequency)
+    : 0;
+  const employmentYears =
+    (parseInt(form.timeInJobYears) || 0) +
+    (parseInt(form.timeInJobMonths) || 0) / 12;
+
+  // Step 3 — Submit enquiry
+  const enquiryRes = await api('/enquiries', {
+    method: 'POST',
+    body: JSON.stringify({
+      clientId,
+      loanType: form.vehicleCondition === 'New' ? 'CAR_LOAN_NEW' : 'CAR_LOAN_USED',
+      loanAmount: parseFloat(form.loanAmount) || 0,
+      vehicleMake: form.vehicleMake || null,
+      vehicleModel: form.vehicleModel || null,
+      vehicleYear: form.yearOfManufacture && form.yearOfManufacture !== 'Not sure'
+        ? parseInt(form.yearOfManufacture) : null,
+      vehicleKms: form.vehicleKm ? parseInt(form.vehicleKm) : null,
+      vehicleCondition: mapVehicleCondition(form.vehicleCondition),
+      clientData: {
+        dateOfBirth: form.dateOfBirth || null,
+        address: `${form.streetAddress}, ${form.suburb} ${form.postcode}`,
+        city: form.suburb || null,
+        postcode: form.postcode || null,
+        employmentStatus: mapEmploymentType(form.employmentType),
+        employerName: form.employerName || null,
+        employmentYears,
+        annualIncome,
+        otherIncome: partnerAnnualIncome,
+        monthlyExpenses,
+        residencyStatus: form.residentialStatus || null,
+      },
+    }),
+  });
+
+  return enquiryRes.data;
+};

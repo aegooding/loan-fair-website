@@ -1,0 +1,279 @@
+/* =====================================================
+   ABOUT PAGE
+   ===================================================== */
+
+/* ===========================
+   HERO
+   =========================== */
+.about-hero {
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+/* ===========================
+   THE PROBLEM (cream section)
+   =========================== */
+.about-problem {
+  color: var(--green);
+}
+
+.about-problem__inner {
+  max-width: 760px;
+}
+
+.about-problem__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  opacity: 0.55;
+  margin-bottom: 1rem;
+}
+
+.about-problem__heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--green);
+  margin-bottom: 2rem;
+  letter-spacing: -0.03em;
+}
+
+.about-problem__prose {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.about-problem__prose p {
+  font-size: 1.05rem;
+  color: var(--green);
+  opacity: 0.82;
+  line-height: 1.75;
+}
+
+/* ===========================
+   HOW WE GET PAID
+   =========================== */
+.about-fees__heading {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+
+.about-fees__intro {
+  font-size: 1.05rem;
+  color: var(--cream);
+  opacity: 0.8;
+  line-height: 1.75;
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+}
+
+.fee-example {
+  background: rgba(45, 90, 69, 0.6);
+  border: 1px solid rgba(236, 219, 186, 0.18);
+  border-radius: var(--radius-brand);
+  padding: 2rem 2.5rem;
+  max-width: 520px;
+}
+
+.fee-example__label-heading {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+}
+
+.fee-example__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.fee-example__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.1);
+}
+
+.fee-example__row--total {
+  border-bottom: none;
+  border-top: 2px solid rgba(236, 219, 186, 0.3);
+  margin-top: 0.25rem;
+  padding-top: 1rem;
+}
+
+.fee-example__row--total .fee-example__desc {
+  font-weight: 700;
+  opacity: 1;
+}
+
+.fee-example__row--total .fee-example__amount {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.fee-example__desc {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.8;
+}
+
+.fee-example__desc-note {
+  font-size: 0.78rem;
+  opacity: 0.55;
+  font-weight: 400;
+}
+
+.fee-example__amount {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+}
+
+.fee-example__amount--highlight {
+  color: var(--sand);
+}
+
+.fee-example__note {
+  margin-top: 1.5rem;
+  font-size: 0.82rem;
+  color: var(--cream);
+  opacity: 0.55;
+  line-height: 1.6;
+}
+
+/* ===========================
+   PRINCIPLES DEEP
+   =========================== */
+.about-principles {
+  color: var(--cream);
+}
+
+.about-principles__heading {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  margin-bottom: 3rem;
+}
+
+.about-principles__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.about-principle-card {
+  background: rgba(53, 104, 82, 0.45);
+  border: 1px solid rgba(236, 219, 186, 0.1);
+  border-radius: var(--radius-brand);
+  padding: 2.25rem 2.5rem;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.about-principle-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(236, 219, 186, 0.25);
+}
+
+.about-principle-card__heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 0.75rem;
+}
+
+.about-principle-card__body {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+/* ===========================
+   TEAM PLACEHOLDER
+   =========================== */
+.about-team {
+  color: var(--cream);
+}
+
+.about-team__placeholder {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.about-team__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 1rem;
+}
+
+.about-team__heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+.about-team__body {
+  color: var(--cream);
+  opacity: 0.5;
+  font-size: 1rem;
+}
+
+/* ===========================
+   CTA
+   =========================== */
+.about-cta__inner {
+  text-align: center;
+}
+
+.about-cta__headline {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+
+.about-cta__btn {
+  font-size: 1.1rem;
+  padding: 16px 40px;
+}
+
+/* Also used in principles heading + eyebrow */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 0.75rem;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .about-principles__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-principle-card {
+    padding: 1.75rem;
+  }
+}

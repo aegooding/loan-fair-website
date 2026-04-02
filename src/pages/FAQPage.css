@@ -1,0 +1,143 @@
+/* =====================================================
+   FAQ PAGE
+   ===================================================== */
+
+/* ===========================
+   HERO
+   =========================== */
+.faq-hero {
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+/* ===========================
+   FAQ BODY
+   =========================== */
+.faq-body__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 760px;
+}
+
+/* ===========================
+   CATEGORY
+   =========================== */
+.faq-category__heading {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+}
+
+.faq-category__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================
+   ACCORDION ITEM
+   =========================== */
+.faq-item {
+  border-bottom: 1px solid rgba(236, 219, 186, 0.12);
+  transition: border-color 200ms ease;
+}
+
+.faq-item:first-child {
+  border-top: 1px solid rgba(236, 219, 186, 0.12);
+}
+
+/* Open item gets a sand left border accent */
+.faq-item--open {
+  border-left: 4px solid var(--sand);
+  padding-left: 1rem;
+}
+
+.faq-item--open:first-child {
+  border-top: none;
+  margin-top: -1px;
+}
+
+.faq-item__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 1.25rem 0;
+  text-align: left;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: color 150ms ease;
+}
+
+.faq-item__question:hover {
+  color: var(--sand);
+}
+
+/* The + icon */
+.faq-item__icon {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--sand);
+  flex-shrink: 0;
+  line-height: 1;
+  transition: transform 300ms ease;
+}
+
+/* Rotate + to × when the item is open */
+.faq-item--open .faq-item__icon {
+  transform: rotate(45deg);
+}
+
+/* ===========================
+   ACCORDION ANSWER
+   Smooth max-height transition
+   =========================== */
+.faq-item__answer {
+  overflow: hidden;
+  transition: max-height 300ms ease-in-out;
+}
+
+.faq-item__answer-text {
+  font-size: 0.95rem;
+  color: var(--cream);
+  opacity: 0.75;
+  line-height: 1.75;
+  padding-bottom: 1.5rem;
+}
+
+/* ===========================
+   CTA
+   =========================== */
+.faq-cta__inner {
+  text-align: center;
+}
+
+.faq-cta__headline {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+}
+
+.faq-cta__sub {
+  color: var(--cream);
+  opacity: 0.6;
+  margin-bottom: 2rem;
+}
+
+.faq-cta__btn {
+  font-size: 1.05rem;
+  padding: 15px 36px;
+}

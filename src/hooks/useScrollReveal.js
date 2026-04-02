@@ -1,0 +1,29 @@
+// useScrollReveal watches an element and adds the 'revealed' CSS class
+// when it enters the viewport. The CSS then transitions it from hidden to visible.
+// Usage: const ref = useScrollReveal()  →  <div ref={ref} className="reveal">
+import { useEffect, useRef } from 'react'
+
+export function useScrollReveal(options = {}) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('revealed')
+          observer.unobserve(el) // only trigger once
+        }
+      },
+      { threshold: 0.12, ...options }
+    )
+
+    observer.observe(el)
+
+    return () => observer.disconnect()
+  }, [])
+
+  return ref
+}
