@@ -103,33 +103,46 @@ export const submitEnquiryToBackend = async (form) => {
     (parseInt(form.timeInJobYears) || 0) +
     (parseInt(form.timeInJobMonths) || 0) / 12;
 
-  // Step 3 — Submit enquiry
-  const enquiryRes = await api('/enquiries', {
-    method: 'POST',
-    body: JSON.stringify({
-      clientId,
-      loanType: form.vehicleCondition === 'New' ? 'CAR_LOAN_NEW' : 'CAR_LOAN_USED',
-      loanAmount: parseFloat(form.loanAmount) || 0,
+  // Step 3 — Build enquiry payload, differentiating by loan type
+  const isCarLoan = form.loanType === 'Car loan'
+
+  const enquiryPayload = {
+    clientId,
+    loanType: isCarLoan
+      ? (form.vehicleCondition === 'New / Demo' ? 'CAR_LOAN_NEW' : 'CAR_LOAN_USED')
+      : 'PERSONAL_LOAN',
+    loanAmount: parseFloat(form.loanAmount) || 0,
+    // Vehicle fields — only for car loans
+    ...(isCarLoan && {
       vehicleMake: form.vehicleMake || null,
       vehicleModel: form.vehicleModel || null,
       vehicleYear: form.yearOfManufacture && form.yearOfManufacture !== 'Not sure'
         ? parseInt(form.yearOfManufacture) : null,
       vehicleKms: form.vehicleKm ? parseInt(form.vehicleKm) : null,
       vehicleCondition: mapVehicleCondition(form.vehicleCondition),
-      clientData: {
-        dateOfBirth: form.dateOfBirth || null,
-        address: `${form.streetAddress}, ${form.suburb} ${form.postcode}`,
-        city: form.suburb || null,
-        postcode: form.postcode || null,
-        employmentStatus: mapEmploymentType(form.employmentType),
-        employerName: form.employerName || null,
-        employmentYears,
-        annualIncome,
-        otherIncome: partnerAnnualIncome,
-        monthlyExpenses,
-        residencyStatus: form.residentialStatus || null,
-      },
     }),
+    // Loan purpose — only for personal loans
+    ...(!isCarLoan && {
+      loanPurpose: form.loanPurpose || null,
+    }),
+    clientData: {
+      dateOfBirth: form.dateOfBirth || null,
+      address: `${form.streetAddress}, ${form.suburb} ${form.postcode}`,
+      city: form.suburb || null,
+      postcode: form.postcode || null,
+      employmentStatus: mapEmploymentType(form.employmentType),
+      employerName: form.employerName || null,
+      employmentYears,
+      annualIncome,
+      otherIncome: partnerAnnualIncome,
+      monthlyExpenses,
+      residencyStatus: form.residentialStatus || null,
+    },
+  }
+
+  const enquiryRes = await api('/enquiries', {
+    method: 'POST',
+    body: JSON.stringify(enquiryPayload),
   });
 
   return enquiryRes.data;

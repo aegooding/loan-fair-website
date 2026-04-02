@@ -186,4 +186,17 @@
   .navbar__hamburger {
     display: flex;
   }
+
+  /* Shrink logo so it doesn't dominate the navbar on small screens */
+  .navbar__logo img {
+    height: 34px;
+  }
+
+  /* Always show a background on mobile so the hamburger is visible
+     regardless of what page content sits behind the navbar */
+  .navbar {
+    background: rgba(53, 104, 82, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }

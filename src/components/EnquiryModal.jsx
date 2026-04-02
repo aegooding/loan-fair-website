@@ -70,7 +70,7 @@ const DISCRETIONARY_EXPENSE_KEYS = [
 
 const EXPENSE_FREQUENCIES = ['Weekly', 'Monthly', 'Quarterly', 'Annually']
 
-const TOTAL_STEPS = 5
+const TOTAL_STEPS = 6
 
 // -------- Helpers --------
 
@@ -111,9 +111,13 @@ function fmt(n) {
 }
 
 const INITIAL_FORM = {
-  // Step 1 — The Basics
+  // Step 1 — Loan Type
+  loanType: '', // 'Car loan' | 'Personal loan'
+
+  // Step 2 — The Basics
   loanAmount: '',
-  vehicleCondition: '',
+  loanPurpose: '',    // Personal loan only
+  vehicleCondition: '', // Car loan only
   yearOfManufacture: '',
   vehicleMake: '',
   vehicleModel: '',
@@ -340,10 +344,14 @@ export default function EnquiryModal() {
   const validate = (s) => {
     const e = {}
     if (s === 1) {
-      if (!form.loanAmount) e.loanAmount = 'Please enter a loan amount'
-      if (!form.vehicleCondition) e.vehicleCondition = 'Please select vehicle condition'
+      if (!form.loanType) e.loanType = 'Please select a loan type'
     }
     if (s === 2) {
+      if (!form.loanAmount) e.loanAmount = 'Please enter a loan amount'
+      if (form.loanType === 'Car loan' && !form.vehicleCondition) e.vehicleCondition = 'Please select vehicle condition'
+      if (form.loanType === 'Personal loan' && !form.loanPurpose.trim()) e.loanPurpose = 'Please describe what the loan is for'
+    }
+    if (s === 3) {
       if (!form.firstName.trim()) e.firstName = 'Required'
       if (!form.lastName.trim()) e.lastName = 'Required'
       if (!form.mobile.trim()) e.mobile = 'Required'
@@ -351,20 +359,20 @@ export default function EnquiryModal() {
       if (!form.dateOfBirth) e.dateOfBirth = 'Required'
       if (!form.maritalStatus) e.maritalStatus = 'Required'
     }
-    if (s === 3) {
+    if (s === 4) {
       if (!form.streetAddress.trim()) e.streetAddress = 'Required'
       if (!form.suburb.trim()) e.suburb = 'Required'
       if (!form.postcode.trim()) e.postcode = 'Required'
       if (!form.residentialStatus) e.residentialStatus = 'Required'
       if (form.timeAtAddressYears === '') e.timeAtAddressYears = 'Required'
     }
-    if (s === 4) {
+    if (s === 5) {
       if (!form.occupation.trim()) e.occupation = 'Required'
       if (!form.employmentType) e.employmentType = 'Required'
       if (!form.afterTaxIncome) e.afterTaxIncome = 'Required'
       if (form.timeInJobYears === '') e.timeInJobYears = 'Required'
     }
-    if (s === 5) {
+    if (s === 6) {
       if (!form.consent) e.consent = 'You must consent to continue'
     }
     setErrors(e)
@@ -445,10 +453,35 @@ const handleSubmit = async (e) => {
             noValidate
           >
 
-            {/* ===================== STEP 1 — The Basics ===================== */}
+            {/* ===================== STEP 1 — Loan Type ===================== */}
             {step === 1 && (
               <div className="modal__step">
                 <p className="modal__step-label">Step 1 of {TOTAL_STEPS}</p>
+                <h2 className="modal__title" id="modal-title">What are you looking for?</h2>
+                <p className="modal__intro">
+                  Let's start with the type of loan you need.
+                </p>
+
+                <div className="form-group">
+                  <ToggleGroup
+                    options={['Car loan', 'Personal loan']}
+                    value={form.loanType}
+                    onChange={setToggle('loanType')}
+                    error={errors.loanType}
+                  />
+                  <FieldError msg={errors.loanType} />
+                </div>
+
+                <button type="button" className="btn-primary modal__next" onClick={next}>
+                  Next →
+                </button>
+              </div>
+            )}
+
+            {/* ===================== STEP 2 — The Basics ===================== */}
+            {step === 2 && (
+              <div className="modal__step">
+                <p className="modal__step-label">Step 2 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">The basics</h2>
                 <p className="modal__intro">
                   Completing this form won't take long, we promise. Please answer as accurately as possible to get the quickest quote.
@@ -472,37 +505,23 @@ const handleSubmit = async (e) => {
                   <FieldError msg={errors.loanAmount} />
                 </div>
 
-                <div className="form-group">
-                  <p className="form-label">Vehicle details *</p>
-                  <ToggleGroup
-                    options={['New / Demo', 'Used', 'Refinance']}
-                    value={form.vehicleCondition}
-                    onChange={setToggle('vehicleCondition')}
-                    error={errors.vehicleCondition}
-                  />
-                  <FieldError msg={errors.vehicleCondition} />
-                </div>
-
-                {form.vehicleCondition === 'Used' && (
-                  <div className="form-group">
-                    <label htmlFor="yearOfManufacture" className="form-label">Year of manufacture</label>
-                    <select
-                      id="yearOfManufacture"
-                      className="form-input"
-                      value={form.yearOfManufacture}
-                      onChange={setField('yearOfManufacture')}
-                    >
-                      <option value="">Select year</option>
-                      {VEHICLE_YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
-                    </select>
-                  </div>
-                )}
-
-                {form.vehicleCondition === 'Refinance' && (
+                {/* Car loan — vehicle condition + optional vehicle details */}
+                {form.loanType === 'Car loan' && (
                   <>
-                    <div className="form-row">
+                    <div className="form-group">
+                      <p className="form-label">Vehicle details *</p>
+                      <ToggleGroup
+                        options={['New / Demo', 'Used', 'Refinance']}
+                        value={form.vehicleCondition}
+                        onChange={setToggle('vehicleCondition')}
+                        error={errors.vehicleCondition}
+                      />
+                      <FieldError msg={errors.vehicleCondition} />
+                    </div>
+
+                    {form.vehicleCondition === 'Used' && (
                       <div className="form-group">
-                        <label htmlFor="yearOfManufacture" className="form-label">Vehicle year</label>
+                        <label htmlFor="yearOfManufacture" className="form-label">Year of manufacture</label>
                         <select
                           id="yearOfManufacture"
                           className="form-input"
@@ -513,46 +532,82 @@ const handleSubmit = async (e) => {
                           {VEHICLE_YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                         </select>
                       </div>
-                      <div className="form-group">
-                        <label htmlFor="vehicleMake" className="form-label">Vehicle make</label>
-                        <input
-                          id="vehicleMake" type="text" className="form-input"
-                          placeholder="e.g. Toyota"
-                          value={form.vehicleMake} onChange={setField('vehicleMake')}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label htmlFor="vehicleModel" className="form-label">Vehicle model</label>
-                        <input
-                          id="vehicleModel" type="text" className="form-input"
-                          placeholder="e.g. Camry"
-                          value={form.vehicleModel} onChange={setField('vehicleModel')}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="vehicleKm" className="form-label">Kilometres travelled</label>
-                        <input
-                          id="vehicleKm" type="number" min="0" className="form-input"
-                          placeholder="e.g. 45000"
-                          value={form.vehicleKm} onChange={setField('vehicleKm')}
-                        />
-                      </div>
-                    </div>
+                    )}
+
+                    {form.vehicleCondition === 'Refinance' && (
+                      <>
+                        <div className="form-row">
+                          <div className="form-group">
+                            <label htmlFor="yearOfManufacture" className="form-label">Vehicle year</label>
+                            <select
+                              id="yearOfManufacture"
+                              className="form-input"
+                              value={form.yearOfManufacture}
+                              onChange={setField('yearOfManufacture')}
+                            >
+                              <option value="">Select year</option>
+                              {VEHICLE_YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                            </select>
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="vehicleMake" className="form-label">Vehicle make</label>
+                            <input
+                              id="vehicleMake" type="text" className="form-input"
+                              placeholder="e.g. Toyota"
+                              value={form.vehicleMake} onChange={setField('vehicleMake')}
+                            />
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group">
+                            <label htmlFor="vehicleModel" className="form-label">Vehicle model</label>
+                            <input
+                              id="vehicleModel" type="text" className="form-input"
+                              placeholder="e.g. Camry"
+                              value={form.vehicleModel} onChange={setField('vehicleModel')}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="vehicleKm" className="form-label">Kilometres travelled</label>
+                            <input
+                              id="vehicleKm" type="number" min="0" className="form-input"
+                              placeholder="e.g. 45000"
+                              value={form.vehicleKm} onChange={setField('vehicleKm')}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
 
-                <button type="button" className="btn-primary modal__next" onClick={next}>
-                  Next →
-                </button>
+                {/* Personal loan — purpose of loan */}
+                {form.loanType === 'Personal loan' && (
+                  <div className="form-group">
+                    <label htmlFor="loanPurpose" className="form-label">Purpose of loan *</label>
+                    <input
+                      id="loanPurpose"
+                      type="text"
+                      className={`form-input${errors.loanPurpose ? ' form-input--error' : ''}`}
+                      value={form.loanPurpose}
+                      onChange={setField('loanPurpose')}
+                      placeholder="e.g. Debt consolidation, home renovation…"
+                    />
+                    <FieldError msg={errors.loanPurpose} />
+                  </div>
+                )}
+
+                <div className="modal__step-nav">
+                  <button type="button" className="btn-secondary" onClick={back}>← Back</button>
+                  <button type="button" className="btn-primary" onClick={next}>Next →</button>
+                </div>
               </div>
             )}
 
-            {/* ===================== STEP 2 — About You ===================== */}
-            {step === 2 && (
+            {/* ===================== STEP 3 — About You ===================== */}
+            {step === 3 && (
               <div className="modal__step">
-                <p className="modal__step-label">Step 2 of {TOTAL_STEPS}</p>
+                <p className="modal__step-label">Step 3 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">About you</h2>
 
                 <div className="form-row">
@@ -695,10 +750,10 @@ const handleSubmit = async (e) => {
               </div>
             )}
 
-            {/* ===================== STEP 3 — Where You Live ===================== */}
-            {step === 3 && (
+            {/* ===================== STEP 4 — Where You Live ===================== */}
+            {step === 4 && (
               <div className="modal__step">
-                <p className="modal__step-label">Step 3 of {TOTAL_STEPS}</p>
+                <p className="modal__step-label">Step 4 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">Where you live</h2>
 
                 <div className="form-group">
@@ -893,10 +948,10 @@ const handleSubmit = async (e) => {
               </div>
             )}
 
-            {/* ===================== STEP 4 — Your Job ===================== */}
-            {step === 4 && (
+            {/* ===================== STEP 5 — Your Job ===================== */}
+            {step === 5 && (
               <div className="modal__step">
-                <p className="modal__step-label">Step 4 of {TOTAL_STEPS}</p>
+                <p className="modal__step-label">Step 5 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">Your job</h2>
 
                 <div className="form-row">
@@ -1040,10 +1095,10 @@ const handleSubmit = async (e) => {
               </div>
             )}
 
-            {/* ===================== STEP 5 — Expenses + Submit ===================== */}
-            {step === 5 && (
+            {/* ===================== STEP 6 — Expenses + Submit ===================== */}
+            {step === 6 && (
               <div className="modal__step">
-                <p className="modal__step-label">Step 5 of {TOTAL_STEPS}</p>
+                <p className="modal__step-label">Step 6 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">Your expenses</h2>
                 <p className="modal__intro">As best you can, give us an understanding of your monthly spending habits.</p>
 
