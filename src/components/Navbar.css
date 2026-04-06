@@ -194,6 +194,19 @@
     height: 34px;
   }
 
+  /* Reduce overlay link size so all items fit on small screens */
+  .navbar__overlay-link {
+    font-size: 1.6rem;
+  }
+
+  .navbar__overlay {
+    gap: 1.5rem;
+  }
+
+  .navbar__overlay-nav {
+    gap: 0.75rem;
+  }
+
   /* Always show a background on mobile so the hamburger is visible
      regardless of what page content sits behind the navbar */
   .navbar {
