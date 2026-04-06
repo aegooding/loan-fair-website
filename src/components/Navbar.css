@@ -173,6 +173,25 @@
   font-size: 1.05rem;
 }
 
+.navbar__overlay-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 10px;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.navbar__overlay-close:hover {
+  opacity: 1;
+}
+
 /* ===========================
    RESPONSIVE
    =========================== */
