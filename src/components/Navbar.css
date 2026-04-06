@@ -139,6 +139,8 @@
   pointer-events: none;
   transition: opacity 280ms ease;
   z-index: 199; /* below the header bar */
+  overflow-y: auto;
+  padding: 80px 2rem 2rem;
 }
 
 .navbar__overlay--open {
@@ -215,15 +217,17 @@
 
   /* Reduce overlay link size so all items fit on small screens */
   .navbar__overlay-link {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
   }
 
   .navbar__overlay {
-    gap: 1.5rem;
+    gap: 1rem;
+    justify-content: flex-start;
+    padding-top: 100px;
   }
 
   .navbar__overlay-nav {
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   /* Always show a background on mobile so the hamburger is visible
