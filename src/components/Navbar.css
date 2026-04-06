@@ -177,10 +177,12 @@
    RESPONSIVE
    =========================== */
 @media (max-width: 768px) {
-  /* Hide desktop nav and CTA on mobile */
+  /* Hide desktop nav and CTA on mobile.
+     !important needed because btn-primary's display:inline-flex
+     is defined in global CSS and loads after this file in the bundle. */
   .navbar__nav,
   .navbar__cta {
-    display: none;
+    display: none !important;
   }
 
   .navbar__hamburger {
