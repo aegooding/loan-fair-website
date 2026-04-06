@@ -97,27 +97,21 @@ export default function Navbar() {
         aria-label="Navigation menu"
         onClick={closeMenu}
       >
-        {/* Close button */}
-        <button className="navbar__overlay-close" aria-label="Close menu">×</button>
-
-        {/* Stop clicks on the nav content from bubbling up and closing the menu */}
-        <div onClick={(e) => e.stopPropagation()}>
-          <nav className="navbar__overlay-nav" aria-label="Mobile navigation">
-            {navLinks.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className="navbar__overlay-link"
-                onClick={closeMenu}
-              >
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-          <button className="btn-primary navbar__overlay-cta" onClick={handleEnquire}>
-            Enquire Now →
-          </button>
-        </div>
+        <nav className="navbar__overlay-nav" aria-label="Mobile navigation">
+          {navLinks.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className="navbar__overlay-link"
+              onClick={closeMenu}
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+        <button className="btn-primary navbar__overlay-cta" onClick={handleEnquire}>
+          Enquire Now →
+        </button>
       </div>
     </header>
   )

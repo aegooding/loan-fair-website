@@ -123,75 +123,64 @@
 }
 
 /* ===========================
-   MOBILE OVERLAY MENU
+   MOBILE DROPDOWN MENU
    =========================== */
 .navbar__overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--green);
+  position: absolute;
+  top: 60px; /* sits directly below the navbar bar */
+  left: 0;
+  right: 0;
+  background: var(--green-dark);
+  border-bottom: 1px solid rgba(236, 219, 186, 0.12);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2.5rem;
+  align-items: stretch;
   /* Hidden by default */
   opacity: 0;
   pointer-events: none;
-  transition: opacity 280ms ease;
-  z-index: 199; /* below the header bar */
-  overflow-y: auto;
-  padding: 80px 2rem 2rem;
+  transform: translateY(-8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  z-index: 199;
 }
 
 .navbar__overlay--open {
   opacity: 1;
   pointer-events: all;
+  transform: translateY(0);
 }
 
 .navbar__overlay-nav {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
+  align-items: stretch;
+  padding: 0.5rem 0;
 }
 
 .navbar__overlay-link {
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--cream);
   text-decoration: none;
-  letter-spacing: -0.02em;
-  transition: color 150ms ease;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid rgba(236, 219, 186, 0.08);
+  transition: background 150ms ease, color 150ms ease;
 }
 
 .navbar__overlay-link:hover,
 .navbar__overlay-link:focus-visible {
+  background: rgba(236, 219, 186, 0.07);
   color: var(--sand);
 }
 
 .navbar__overlay-cta {
-  padding: 14px 40px;
-  font-size: 1.05rem;
+  margin: 1rem 1.5rem 1.25rem;
+  text-align: center;
+  justify-content: center;
 }
 
 .navbar__overlay-close {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  background: none;
-  border: none;
-  color: var(--cream);
-  font-size: 2rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 4px 10px;
-  opacity: 0.6;
-  transition: opacity 150ms ease;
-}
-
-.navbar__overlay-close:hover {
-  opacity: 1;
+  display: none; /* not needed for a dropdown — hamburger toggles it */
 }
 
 /* ===========================
@@ -213,26 +202,6 @@
   /* Shrink logo so it doesn't dominate the navbar on small screens */
   .navbar__logo img {
     height: 34px;
-  }
-
-  /* Size and spacing so all items fit on one screen */
-  .navbar__overlay-link {
-    font-size: 1.5rem;
-  }
-
-  .navbar__overlay {
-    gap: 0.75rem;
-    justify-content: center;
-    padding: 60px 2rem 2rem;
-  }
-
-  .navbar__overlay-nav {
-    gap: 0.25rem;
-  }
-
-  .navbar__overlay-cta {
-    padding: 12px 32px;
-    font-size: 0.95rem;
   }
 
   /* Always show a background on mobile so the hamburger is visible
