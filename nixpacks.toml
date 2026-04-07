@@ -1,7 +1,7 @@
 [phases.setup]
 
 [phases.install]
-cmds = ["cd Backend && npm install"]
+cmds = ["cd Backend && npm install && npx --prefix Backend prisma generate"]
 
 [phases.build]
 cmds = []
