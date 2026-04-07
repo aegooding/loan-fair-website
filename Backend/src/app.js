@@ -16,10 +16,15 @@ const app = express();
 
 // ── Security & Middleware ──────────────────────────
 app.use(helmet());
+const ALLOWED_ORIGINS = [
+  'https://www.loanfair.com.au',
+  'https://loanfair.com.au',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow any localhost port in development, plus the configured frontend URL
-    if (!origin || origin.startsWith('http://localhost:') || origin === process.env.FRONTEND_URL) {
+    if (!origin || origin.startsWith('http://localhost:') || ALLOWED_ORIGINS.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
