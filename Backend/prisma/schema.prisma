@@ -187,22 +187,71 @@ model Client {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  dateOfBirth      DateTime?
-  address          String?
-  city             String?
-  state            String?
-  postcode         String?
-  country          String           @default("AU")
-  residencyStatus  String?
+  // ── Personal details ──────────────────────
+  dateOfBirth       DateTime?
+  maritalStatus     String?
+  numDependants     Int       @default(0)
+  dependantAges     Int[]
+  licenceNumber     String?
+  licenceExpiry     String?
+  licenceCardNumber String?
+  licenceState      String?
 
-  employmentStatus EmploymentStatus?
-  employerName     String?
-  employmentYears  Float?
-  annualIncome     Float?
-  otherIncome      Float?
-  monthlyExpenses  Float?
-  existingDebts    Float?
+  // ── Current address ───────────────────────
+  address             String?
+  streetAddress       String?
+  city                String?
+  state               String?
+  postcode            String?
+  country             String  @default("AU")
+  residencyStatus     String?
+  mortgageBalance     Float?
+  mortgageRepayments  Float?
+  rentalPayments      Float?
+  timeAtAddressYears  Int?
+  timeAtAddressMonths Int?
 
+  // ── Previous address (if < 2 yrs at current) ──
+  prevAddress            String?
+  prevResidentialStatus  String?
+  prevMortgageBalance    Float?
+  prevMortgageRepayments Float?
+  prevRentalPayments     Float?
+
+  // ── Other property ────────────────────────
+  otherPropertyMortgage   String?
+  otherPropertyBalance    Float?
+  otherPropertyRepayments Float?
+
+  // ── Employment ────────────────────────────
+  occupation         String?
+  employmentStatus   EmploymentStatus?
+  employerName       String?
+  employmentYears    Float?
+  timeInJobYears     Int?
+  timeInJobMonths    Int?
+  prevOccupation     String?
+  prevEmployerName   String?
+  prevEmploymentType String?
+
+  // ── Income ────────────────────────────────
+  annualIncome           Float?
+  afterTaxIncome         Float?
+  incomeFrequency        String?
+  otherIncomeSources     String[]
+  otherIncome            Float?   // partner annual income
+  partnerIncome          Float?
+  partnerIncomeFrequency String?
+
+  // ── Expenses ──────────────────────────────
+  monthlyExpenses              Float?
+  monthlyFixedExpenses         Float?
+  monthlyDiscretionaryExpenses Float?
+  fixedExpenses                Json?
+  discretionaryExpenses        Json?
+  existingDebts                Float?
+
+  // ── Credit ────────────────────────────────
   creditScore     Int?
   creditBureau    CreditBureau?
   creditCheckedAt DateTime?

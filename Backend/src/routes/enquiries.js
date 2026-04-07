@@ -3,7 +3,7 @@ import { prisma } from '../lib/prisma.js';
 import { requireRole } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { runFullAssessment, scoreEnquiry, matchLenders, generateBrokerNarrative } from '../services/ai.js';
-import { createHubSpotDeal, updateHubSpotDeal, addHubSpotNote } from '../services/hubspot.js';
+import { createHubSpotContact, createHubSpotDeal, updateHubSpotDeal, addHubSpotNote, createEnquiryNote } from '../services/hubspot.js';
 import { queueWebhook } from './webhooks.js';
 import { generateReference, logAudit } from '../lib/utils.js';
 import { calculateCarLtv } from '../services/rateMatrix.js';
@@ -46,17 +46,84 @@ router.post('/', async (req, res, next) => {
       vehicleMake, vehicleModel, vehicleYear, vehicleKms,
       vehicleCondition, vehicleType, saleType, dealerName, dealerABN, dealerState,
       vehicleGlassValue, deposit, tradeInValue, tradeInOwing, balloonAmount, balloonPercent,
+      clientData,
     } = req.body;
 
     if (!clientId || !loanType || !loanAmount) {
       throw new AppError('clientId, loanType, and loanAmount are required', 400);
     }
 
-    const client = await prisma.client.findUnique({
+    let client = await prisma.client.findUnique({
       where: { id: clientId },
       include: { user: true },
     });
     if (!client) throw new AppError('Client not found', 404);
+
+    // Save all personal/financial data supplied by the frontend form
+    if (clientData) {
+      await prisma.client.update({
+        where: { id: clientId },
+        data: {
+          // Personal
+          dateOfBirth:       clientData.dateOfBirth ? new Date(clientData.dateOfBirth) : undefined,
+          maritalStatus:     clientData.maritalStatus     || undefined,
+          numDependants:     clientData.numDependants     != null ? Number(clientData.numDependants) : undefined,
+          dependantAges:     Array.isArray(clientData.dependantAges) ? clientData.dependantAges.map(Number) : undefined,
+          licenceNumber:     clientData.licenceNumber     || undefined,
+          licenceExpiry:     clientData.licenceExpiry     || undefined,
+          licenceCardNumber: clientData.licenceCardNumber || undefined,
+          licenceState:      clientData.licenceState      || undefined,
+          // Current address
+          address:              clientData.address             || undefined,
+          streetAddress:        clientData.streetAddress       || undefined,
+          city:                 clientData.city                || undefined,
+          state:                clientData.state               || undefined,
+          postcode:             clientData.postcode            || undefined,
+          residencyStatus:      clientData.residencyStatus     || undefined,
+          mortgageBalance:      clientData.mortgageBalance     != null ? Number(clientData.mortgageBalance)     : undefined,
+          mortgageRepayments:   clientData.mortgageRepayments  != null ? Number(clientData.mortgageRepayments)  : undefined,
+          rentalPayments:       clientData.rentalPayments      != null ? Number(clientData.rentalPayments)      : undefined,
+          timeAtAddressYears:   clientData.timeAtAddressYears  != null ? Number(clientData.timeAtAddressYears)  : undefined,
+          timeAtAddressMonths:  clientData.timeAtAddressMonths != null ? Number(clientData.timeAtAddressMonths) : undefined,
+          // Previous address
+          prevAddress:            clientData.prevAddress            || undefined,
+          prevResidentialStatus:  clientData.prevResidentialStatus  || undefined,
+          prevMortgageBalance:    clientData.prevMortgageBalance    != null ? Number(clientData.prevMortgageBalance)    : undefined,
+          prevMortgageRepayments: clientData.prevMortgageRepayments != null ? Number(clientData.prevMortgageRepayments) : undefined,
+          prevRentalPayments:     clientData.prevRentalPayments     != null ? Number(clientData.prevRentalPayments)     : undefined,
+          // Other property
+          otherPropertyMortgage:   clientData.otherPropertyMortgage   || undefined,
+          otherPropertyBalance:    clientData.otherPropertyBalance    != null ? Number(clientData.otherPropertyBalance)    : undefined,
+          otherPropertyRepayments: clientData.otherPropertyRepayments != null ? Number(clientData.otherPropertyRepayments) : undefined,
+          // Employment
+          occupation:        clientData.occupation        || undefined,
+          employmentStatus:  clientData.employmentStatus  || undefined,
+          employerName:      clientData.employerName      || undefined,
+          employmentYears:   clientData.employmentYears   != null ? Number(clientData.employmentYears)  : undefined,
+          timeInJobYears:    clientData.timeInJobYears    != null ? Number(clientData.timeInJobYears)   : undefined,
+          timeInJobMonths:   clientData.timeInJobMonths   != null ? Number(clientData.timeInJobMonths)  : undefined,
+          prevOccupation:    clientData.prevOccupation    || undefined,
+          prevEmployerName:  clientData.prevEmployerName  || undefined,
+          prevEmploymentType: clientData.prevEmploymentType || undefined,
+          // Income
+          annualIncome:           clientData.annualIncome          != null ? Number(clientData.annualIncome)          : undefined,
+          afterTaxIncome:         clientData.afterTaxIncome        != null ? Number(clientData.afterTaxIncome)        : undefined,
+          incomeFrequency:        clientData.incomeFrequency       || undefined,
+          otherIncomeSources:     Array.isArray(clientData.otherIncomeSources) ? clientData.otherIncomeSources : undefined,
+          otherIncome:            clientData.partnerAnnualIncome   != null ? Number(clientData.partnerAnnualIncome)   : undefined,
+          partnerIncome:          clientData.partnerIncome         != null ? Number(clientData.partnerIncome)         : undefined,
+          partnerIncomeFrequency: clientData.partnerIncomeFrequency || undefined,
+          // Expenses
+          monthlyExpenses:              clientData.monthlyExpenses              != null ? Number(clientData.monthlyExpenses)              : undefined,
+          monthlyFixedExpenses:         clientData.monthlyFixedExpenses         != null ? Number(clientData.monthlyFixedExpenses)         : undefined,
+          monthlyDiscretionaryExpenses: clientData.monthlyDiscretionaryExpenses != null ? Number(clientData.monthlyDiscretionaryExpenses) : undefined,
+          fixedExpenses:                clientData.fixedExpenses         ?? undefined,
+          discretionaryExpenses:        clientData.discretionaryExpenses ?? undefined,
+        },
+      });
+      // Re-fetch so the HubSpot call below sees the updated data
+      client = await prisma.client.findUnique({ where: { id: clientId }, include: { user: true } });
+    }
 
     const netAmountFinanced = loanAmount - (deposit || 0) -
       Math.max(0, (tradeInValue || 0) - (tradeInOwing || 0));
@@ -95,9 +162,20 @@ router.post('/', async (req, res, next) => {
 
     // Push to HubSpot
     try {
+      // 1. Ensure a HubSpot contact exists for this client
+      if (!client.crmClientId) {
+        const crmClientId = await createHubSpotContact(client, client.user);
+        await prisma.client.update({ where: { id: client.id }, data: { crmClientId } });
+        client = { ...client, crmClientId };
+      }
+
+      // 2. Create the deal (now associated to the contact above)
       const crmId = await createHubSpotDeal(enquiry, client, client.user);
       await prisma.enquiry.update({ where: { id: enquiry.id }, data: { crmEnquiryId: crmId } });
       enquiry.crmEnquiryId = crmId;
+
+      // 3. Attach a note with the full financial/personal breakdown
+      await createEnquiryNote(crmId, client, enquiry);
     } catch (e) { console.error('HubSpot sync failed:', e.message); }
 
     await logAudit(req.user.id, 'enquiry.created', enquiry.id, 'Enquiry');
