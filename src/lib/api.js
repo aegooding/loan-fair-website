@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const api = async (path, options = {}) => {
   const token = localStorage.getItem('lf_token');
@@ -126,17 +126,66 @@ export const submitEnquiryToBackend = async (form) => {
       loanPurpose: form.loanPurpose || null,
     }),
     clientData: {
+      // Identity
       dateOfBirth: form.dateOfBirth || null,
+      maritalStatus: form.maritalStatus || null,
+      numDependants: parseInt(form.numDependants) || 0,
+      dependantAges: form.dependantAges.filter(Boolean).map(Number),
+      licenceNumber: form.licenceNumber || null,
+      licenceExpiry: form.licenceExpiry || null,
+      licenceCardNumber: form.licenceCardNumber || null,
+      licenceState: form.licenceState || null,
+      // Current address
       address: `${form.streetAddress}, ${form.suburb} ${form.postcode}`,
+      streetAddress: form.streetAddress || null,
       city: form.suburb || null,
+      state: form.licenceState || null,
       postcode: form.postcode || null,
+      residencyStatus: form.residentialStatus || null,
+      mortgageBalance: form.mortgageBalance ? parseFloat(form.mortgageBalance) : null,
+      mortgageRepayments: form.mortgageRepayments ? parseFloat(form.mortgageRepayments) : null,
+      rentalPayments: form.rentalPayments ? parseFloat(form.rentalPayments) : null,
+      timeAtAddressYears: parseInt(form.timeAtAddressYears) || 0,
+      timeAtAddressMonths: parseInt(form.timeAtAddressMonths) || 0,
+      // Previous address (only present if they moved within the last 2 years)
+      prevAddress: form.prevAddress || null,
+      prevResidentialStatus: form.prevResidentialStatus || null,
+      prevMortgageBalance: form.prevMortgageBalance ? parseFloat(form.prevMortgageBalance) : null,
+      prevMortgageRepayments: form.prevMortgageRepayments ? parseFloat(form.prevMortgageRepayments) : null,
+      prevRentalPayments: form.prevRentalPayments ? parseFloat(form.prevRentalPayments) : null,
+      // Other property
+      otherPropertyMortgage: form.otherPropertyMortgage || null,
+      otherPropertyBalance: form.otherPropertyBalance ? parseFloat(form.otherPropertyBalance) : null,
+      otherPropertyRepayments: form.otherPropertyRepayments ? parseFloat(form.otherPropertyRepayments) : null,
+      // Employment
+      occupation: form.occupation || null,
       employmentStatus: mapEmploymentType(form.employmentType),
       employerName: form.employerName || null,
       employmentYears,
+      timeInJobYears: parseInt(form.timeInJobYears) || 0,
+      timeInJobMonths: parseInt(form.timeInJobMonths) || 0,
+      prevOccupation: form.prevOccupation || null,
+      prevEmployerName: form.prevEmployerName || null,
+      prevEmploymentType: form.prevEmploymentType || null,
+      // Income
       annualIncome,
-      otherIncome: partnerAnnualIncome,
+      afterTaxIncome: parseFloat(form.afterTaxIncome) || 0,
+      incomeFrequency: form.incomeFrequency || null,
+      otherIncomeSources: form.otherIncome,
+      partnerAnnualIncome,
+      partnerIncome: parseFloat(form.partnerIncome) || 0,
+      partnerIncomeFrequency: form.partnerIncomeFrequency || null,
+      // Expenses — totals
       monthlyExpenses,
-      residencyStatus: form.residentialStatus || null,
+      monthlyFixedExpenses: expenseTotal(form.fixedExpenses),
+      monthlyDiscretionaryExpenses: expenseTotal(form.discretionaryExpenses),
+      // Expenses — itemised (amounts converted to monthly for consistency)
+      fixedExpenses: Object.fromEntries(
+        Object.entries(form.fixedExpenses).map(([k, v]) => [k, toMonthly(v.amount, v.frequency)])
+      ),
+      discretionaryExpenses: Object.fromEntries(
+        Object.entries(form.discretionaryExpenses).map(([k, v]) => [k, toMonthly(v.amount, v.frequency)])
+      ),
     },
   }
 
