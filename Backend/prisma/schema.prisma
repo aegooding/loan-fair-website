@@ -238,7 +238,7 @@ model Client {
   annualIncome           Float?
   afterTaxIncome         Float?
   incomeFrequency        String?
-  otherIncomeSources     String[]
+  otherIncomeSources     String[] @default([])
   otherIncome            Float?   // partner annual income
   partnerIncome          Float?
   partnerIncomeFrequency String?

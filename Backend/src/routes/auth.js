@@ -22,7 +22,7 @@ router.post('/register', async (req, res, next) => {
       data: { email, name, phone, role, passwordHash: hashPassword(password) },
     });
     if (role === 'CLIENT') {
-      await prisma.client.create({ data: { userId: user.id, dependantAges: [] } });
+      await prisma.client.create({ data: { userId: user.id, dependantAges: [], otherIncomeSources: [] } });
     }
     const clientRecord = role === 'CLIENT'
       ? await prisma.client.findUnique({ where: { userId: user.id } })
