@@ -1,7 +1,6 @@
 import app from './app.js';
 
 const PORT = process.env.PORT || 3001;
-console.log('DATABASE_URL set:', !!process.env.DATABASE_URL);
 
 app.listen(PORT, () => {
   console.log(`
