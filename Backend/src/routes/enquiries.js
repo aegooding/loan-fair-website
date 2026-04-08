@@ -119,6 +119,7 @@ router.post('/', async (req, res, next) => {
           monthlyDiscretionaryExpenses: clientData.monthlyDiscretionaryExpenses != null ? Number(clientData.monthlyDiscretionaryExpenses) : undefined,
           fixedExpenses:                clientData.fixedExpenses         ?? undefined,
           discretionaryExpenses:        clientData.discretionaryExpenses ?? undefined,
+          additionalInfo:               clientData.additionalInfo        || undefined,
         },
       });
       // Re-fetch so the HubSpot call below sees the updated data

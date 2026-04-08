@@ -186,6 +186,8 @@ export const submitEnquiryToBackend = async (form) => {
       discretionaryExpenses: Object.fromEntries(
         Object.entries(form.discretionaryExpenses).map(([k, v]) => [k, toMonthly(v.amount, v.frequency)])
       ),
+      // Additional info
+      additionalInfo: form.additionalInfo || null,
     },
   }
 

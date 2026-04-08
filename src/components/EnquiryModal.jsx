@@ -175,6 +175,9 @@ const INITIAL_FORM = {
   fixedExpenses: makeExpenses(FIXED_EXPENSE_KEYS),
   discretionaryExpenses: makeExpenses(DISCRETIONARY_EXPENSE_KEYS),
 
+  // Step 6 — Additional info
+  additionalInfo: '',
+
   consent: false,
 }
 
@@ -1140,6 +1143,17 @@ const handleSubmit = async (e) => {
                 </div>
 
                 <div className="form-group" style={{ marginTop: '2rem' }}>
+                  <label className="form-label">Any other relevant information</label>
+                  <textarea
+                    className="form-textarea"
+                    placeholder="Anything else you'd like us to know about your situation…"
+                    rows={4}
+                    value={form.additionalInfo}
+                    onChange={setField('additionalInfo')}
+                  />
+                </div>
+
+                <div className="form-group">
                   <label className={`form-checkbox${errors.consent ? ' form-checkbox--error' : ''}`}>
                     <input
                       type="checkbox"

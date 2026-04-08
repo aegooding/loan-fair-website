@@ -250,6 +250,7 @@ model Client {
   fixedExpenses                Json?
   discretionaryExpenses        Json?
   existingDebts                Float?
+  additionalInfo               String?
 
   // ── Credit ────────────────────────────────
   creditScore     Int?

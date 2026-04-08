@@ -202,6 +202,10 @@ export const createEnquiryNote = async (crmEnquiryId, client, enquiry) => {
     }
   }
 
+  if (client.additionalInfo) {
+    lines.push('', '--- ADDITIONAL INFORMATION ---', client.additionalInfo);
+  }
+
   lines.push('', `Reference: ${enquiry.reference}`);
 
   return addHubSpotNote(crmEnquiryId, lines.join('<br>'));

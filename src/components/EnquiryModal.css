@@ -201,8 +201,28 @@
   -webkit-appearance: none;
 }
 
-.form-input::placeholder {
+.form-input::placeholder,
+.form-textarea::placeholder {
   color: rgba(236, 219, 186, 0.35);
+}
+
+.form-textarea {
+  background: rgba(53, 104, 82, 0.5);
+  border: 1px solid rgba(236, 219, 186, 0.25);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 14px;
+  width: 100%;
+  outline: none;
+  resize: vertical;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.form-textarea:focus {
+  border-color: var(--cream);
+  box-shadow: 0 0 0 3px rgba(236, 219, 186, 0.12);
 }
 
 .form-input:focus {
