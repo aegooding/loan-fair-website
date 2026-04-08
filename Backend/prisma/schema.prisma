@@ -343,10 +343,10 @@ model Enquiry {
   aiScore              Float?
   aiGrade              String?
   aiSummary            String?
-  aiFlags              String[]
-  aiStrengths          String[]
-  aiRisks              String[]
-  aiRecommendedLenders String[]
+  aiFlags              String[] @default([])
+  aiStrengths          String[] @default([])
+  aiRisks              String[] @default([])
+  aiRecommendedLenders String[] @default([])
   aiLastRun            DateTime?
 
   crmEnquiryId String?
