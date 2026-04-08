@@ -190,6 +190,7 @@ model Client {
   // ── Personal details ──────────────────────
   dateOfBirth       DateTime?
   maritalStatus     String?
+  citizenshipStatus String?
   numDependants     Int       @default(0)
   dependantAges     Int[]    @default([])
   licenceNumber     String?

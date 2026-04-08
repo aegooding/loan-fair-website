@@ -12,6 +12,14 @@ const VEHICLE_YEARS = ['Not sure', ...Array.from({ length: 25 }, (_, i) => Strin
 
 const MARITAL_STATUSES = ['Single', 'Married', 'De facto']
 
+const CITIZENSHIP_STATUSES = [
+  'Australian Citizen',
+  'Permanent Resident',
+  'Temporary Resident',
+  'Student Visa',
+  'Other',
+]
+
 const AU_STATES = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 
 const RESIDENTIAL_STATUSES = [
@@ -130,6 +138,7 @@ const INITIAL_FORM = {
   email: '',
   dateOfBirth: '',
   maritalStatus: '',
+  citizenshipStatus: '',
   numDependants: '0',
   dependantAges: [],
   licenceNumber: '',
@@ -361,6 +370,7 @@ export default function EnquiryModal() {
       if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = 'Valid email required'
       if (!form.dateOfBirth) e.dateOfBirth = 'Required'
       if (!form.maritalStatus) e.maritalStatus = 'Required'
+      if (!form.citizenshipStatus) e.citizenshipStatus = 'Required'
     }
     if (s === 4) {
       if (!form.streetAddress.trim()) e.streetAddress = 'Required'
@@ -675,6 +685,17 @@ const handleSubmit = async (e) => {
                     />
                     <FieldError msg={errors.maritalStatus} />
                   </div>
+                </div>
+
+                <div className="form-group">
+                  <p className={`form-label${errors.citizenshipStatus ? ' form-label--error' : ''}`}>Residency status *</p>
+                  <ToggleGroup
+                    options={CITIZENSHIP_STATUSES}
+                    value={form.citizenshipStatus}
+                    onChange={setToggle('citizenshipStatus')}
+                    error={errors.citizenshipStatus}
+                  />
+                  <FieldError msg={errors.citizenshipStatus} />
                 </div>
 
                 <div className="form-group">

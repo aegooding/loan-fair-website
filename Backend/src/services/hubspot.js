@@ -139,6 +139,7 @@ export const createEnquiryNote = async (crmEnquiryId, client, enquiry) => {
     '',
     '--- PERSONAL ---',
     `Marital Status:   ${val(client.maritalStatus)}`,
+    `Residency Status: ${val(client.citizenshipStatus)}`,
     `Dependants:       ${client.numDependants ?? 0}${client.dependantAges?.length ? ` (ages: ${client.dependantAges.join(', ')})` : ''}`,
     `Licence No:       ${val(client.licenceNumber)}`,
     `Licence Expiry:   ${val(client.licenceExpiry)}`,

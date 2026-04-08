@@ -67,6 +67,7 @@ router.post('/', async (req, res, next) => {
           // Personal
           dateOfBirth:       clientData.dateOfBirth ? new Date(clientData.dateOfBirth) : undefined,
           maritalStatus:     clientData.maritalStatus     || undefined,
+          citizenshipStatus: clientData.citizenshipStatus || undefined,
           numDependants:     clientData.numDependants     != null ? Number(clientData.numDependants) : undefined,
           dependantAges:     Array.isArray(clientData.dependantAges) ? clientData.dependantAges.map(Number) : undefined,
           licenceNumber:     clientData.licenceNumber     || undefined,

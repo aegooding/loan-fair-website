@@ -129,6 +129,7 @@ export const submitEnquiryToBackend = async (form) => {
       // Identity
       dateOfBirth: form.dateOfBirth || null,
       maritalStatus: form.maritalStatus || null,
+      citizenshipStatus: form.citizenshipStatus || null,
       numDependants: parseInt(form.numDependants) || 0,
       dependantAges: form.dependantAges.filter(Boolean).map(Number),
       licenceNumber: form.licenceNumber || null,
