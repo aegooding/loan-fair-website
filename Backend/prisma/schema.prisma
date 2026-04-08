@@ -191,7 +191,7 @@ model Client {
   dateOfBirth       DateTime?
   maritalStatus     String?
   numDependants     Int       @default(0)
-  dependantAges     Int[]
+  dependantAges     Int[]    @default([])
   licenceNumber     String?
   licenceExpiry     String?
   licenceCardNumber String?
