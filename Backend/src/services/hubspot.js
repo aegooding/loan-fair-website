@@ -28,29 +28,17 @@ const hubspotFetch = async (path, options = {}) => {
 export const createHubSpotContact = async (client, user) => {
   const body = {
     properties: {
-      // Identity
       email:     user.email,
       firstname: user.name.split(' ')[0],
       lastname:  user.name.split(' ').slice(1).join(' '),
       phone:     user.phone || '',
-      date_of_birth: client.dateOfBirth
-        ? new Date(client.dateOfBirth).toISOString().split('T')[0]
-        : '',
-      // Address
-      address: client.streetAddress || client.address || '',
-      city:    client.city     || '',
-      state:   client.state    || '',
-      zip:     client.postcode || '',
-      country: client.country  || 'AU',
-      // Employment & income
-      employment_status: client.employmentStatus || '',
-      jobtitle:          client.occupation       || '',
-      company:           client.employerName     || '',
-      annual_income:     client.annualIncome?.toString()    || '',
-      // Financials
-      credit_score:    client.creditScore?.toString()    || '',
-      // Internal reference
-      loan_fair_client_id: client.id,
+      address:   client.streetAddress || client.address || '',
+      city:      client.city     || '',
+      state:     client.state    || '',
+      zip:       client.postcode || '',
+      country:   client.country  || 'AU',
+      jobtitle:  client.occupation    || '',
+      company:   client.employerName  || '',
     },
   };
 
@@ -97,18 +85,12 @@ export const createHubSpotDeal = async (enquiry, client, user) => {
 
   const body = {
     properties: {
-      dealname: `${user.name} — ${vehicleDesc || enquiry.loanType} — ${enquiry.reference}`,
-      amount: enquiry.loanAmount?.toString() || '0',
+      dealname:  `${user.name} — ${vehicleDesc || enquiry.loanType} — ${enquiry.reference}`,
+      amount:    enquiry.loanAmount?.toString() || '0',
       dealstage: STAGE_MAP[enquiry.status] || 'appointmentscheduled',
-      pipeline: 'default',
+      pipeline:  'default',
       closedate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-      loan_fair_enquiry_id: enquiry.id,
-      loan_fair_reference: enquiry.reference,
-      loan_type: enquiry.loanType,
-      vehicle_description: vehicleDesc,
-      loan_term_months: enquiry.loanTerm?.toString() || '',
-      ltv: enquiry.ltvRatio?.toString() || '',
-      ai_eligibility_score: enquiry.aiScore?.toString() || '',
+      description: `Loan Fair ref: ${enquiry.reference} | Type: ${enquiry.loanType}${vehicleDesc ? ` | Vehicle: ${vehicleDesc}` : ''}`,
     },
     associations: client.crmClientId
       ? [
