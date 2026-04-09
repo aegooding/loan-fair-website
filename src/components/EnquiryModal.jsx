@@ -407,7 +407,7 @@ export default function EnquiryModal() {
 
 const handleSubmit = async (e) => {
   e.preventDefault()
-  if (!validate(5)) return
+  if (!validate(6)) return
   setLoading(true)
   setSubmitError('')
   try {

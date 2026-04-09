@@ -39,11 +39,7 @@ test('happy path — car loan enquiry submits successfully', async ({ page }) =>
 
   // Step 2 — The basics
   await page.getByLabel(/loan amount/i).fill('25000')
-  await selectToggle(page, 'Refinance')
-  await page.getByLabel(/vehicle year/i).selectOption('2020')
-  await page.getByLabel(/vehicle make/i).fill('Toyota')
-  await page.getByLabel(/vehicle model/i).fill('Camry')
-  await page.getByLabel(/kilometres travelled/i).fill('45000')
+  await selectToggle(page, 'New / Demo')
   await page.getByRole('button', { name: /next/i }).click()
 
   // Step 3 — About you
@@ -78,7 +74,7 @@ test('happy path — car loan enquiry submits successfully', async ({ page }) =>
   // Step 6 — Expenses & consent
   // Leave expenses at zero (all default to 0), just tick consent and submit
   await page.getByLabel(/i consent/i).check()
-  await page.getByRole('button', { name: /submit/i }).click()
+  await page.getByRole('button', { name: /send my enquiry/i }).click()
 
   // Success state
   await expect(page.getByText(/thanks, test/i)).toBeVisible({ timeout: 10000 })
@@ -130,7 +126,7 @@ test('happy path — personal loan enquiry submits successfully', async ({ page 
 
   // Step 6 — Expenses & consent
   await page.getByLabel(/i consent/i).check()
-  await page.getByRole('button', { name: /submit/i }).click()
+  await page.getByRole('button', { name: /send my enquiry/i }).click()
 
   // Success state
   await expect(page.getByText(/thanks, jane/i)).toBeVisible({ timeout: 10000 })
@@ -206,6 +202,6 @@ test('validation — step 6 requires consent before submit', async ({ page }) =>
   await page.locator('#timeInJobMonths').selectOption('0')
   await page.getByRole('button', { name: /next/i }).click()
   // Try to submit without ticking consent
-  await page.getByRole('button', { name: /submit/i }).click()
+  await page.getByRole('button', { name: /send my enquiry/i }).click()
   await expect(page.getByText(/you must consent/i)).toBeVisible()
 })

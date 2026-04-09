@@ -12,7 +12,17 @@
 # Error details
 
 ```
-Test timeout of 30000ms exceeded.
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText(/you must consent/i)
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByText(/you must consent/i)
+
 ```
 
 # Page snapshot
@@ -140,87 +150,123 @@ Test timeout of 30000ms exceeded.
       - generic [ref=e93]:
         - paragraph [ref=e94]: "Loan Fair Pty Ltd ABN 82 696 091 924, is an Authorised Credit Representative #577538 of AFAS Group PTY LTD, Australian Credit Licence #414426."
         - paragraph [ref=e95]: © 2026 Loan Fair. All rights reserved.
-  - dialog "Your job" [ref=e96]:
+  - dialog "Thanks, Test." [ref=e96]:
     - button "Close" [ref=e97] [cursor=pointer]: ×
-    - generic [ref=e101]:
-      - paragraph [ref=e102]: Step 5 of 6
-      - heading "Your job" [level=2] [ref=e103]
-      - generic [ref=e104]:
-        - generic [ref=e105]:
-          - generic [ref=e106]: Occupation *
-          - textbox "Occupation *" [active] [ref=e107]: Developer
-        - generic [ref=e108]:
-          - generic [ref=e109]: Employer name
-          - textbox "Employer name" [ref=e110]
-      - generic [ref=e111]:
-        - generic [ref=e112]: Employment type *
-        - combobox "Employment type *" [ref=e113] [cursor=pointer]:
-          - option "Select..."
-          - option "Full time" [selected]
-          - option "Part time"
-          - option "Casual"
-          - option "Contractor"
-          - option "Self employed"
-          - option "Not currently employed"
-          - option "Other"
-      - generic [ref=e114]:
-        - paragraph [ref=e115]: After tax income *
-        - generic [ref=e116]:
-          - generic [ref=e117]:
-            - generic: $
-            - spinbutton [ref=e118]
-          - combobox [ref=e119] [cursor=pointer]:
-            - option "Weekly"
-            - option "Fortnightly"
-            - option "Monthly" [selected]
-            - option "Quarterly"
-            - option "Annually"
-      - generic [ref=e120]:
-        - paragraph [ref=e121]: Time in this job *
-        - generic [ref=e122]:
-          - generic [ref=e123]:
-            - generic [ref=e124]: Years
-            - spinbutton "Years" [ref=e125]
-          - generic [ref=e126]:
-            - generic [ref=e127]: Months
-            - combobox "Months" [ref=e128] [cursor=pointer]:
-              - option "0" [selected]
-              - option "1"
-              - option "2"
-              - option "3"
-              - option "4"
-              - option "5"
-              - option "6"
-              - option "7"
-              - option "8"
-              - option "9"
-              - option "10"
-              - option "11"
-      - generic [ref=e129]:
-        - paragraph [ref=e130]: Other income sources (select all that apply)
-        - generic [ref=e131]:
-          - generic [ref=e132] [cursor=pointer]:
-            - checkbox "Rental income" [ref=e133]
-            - generic [ref=e134]: Rental income
-          - generic [ref=e135] [cursor=pointer]:
-            - checkbox "Centrelink" [ref=e136]
-            - generic [ref=e137]: Centrelink
-          - generic [ref=e138] [cursor=pointer]:
-            - checkbox "Child support" [ref=e139]
-            - generic [ref=e140]: Child support
-          - generic [ref=e141] [cursor=pointer]:
-            - checkbox "Investment income" [ref=e142]
-            - generic [ref=e143]: Investment income
-          - generic [ref=e144] [cursor=pointer]:
-            - checkbox "Family assistance" [ref=e145]
-            - generic [ref=e146]: Family assistance
-          - generic [ref=e147] [cursor=pointer]:
-            - checkbox "Other government" [ref=e148]
-            - generic [ref=e149]: Other government
-          - generic [ref=e150] [cursor=pointer]:
-            - checkbox "Other" [ref=e151]
-            - generic [ref=e152]: Other
-      - generic [ref=e153]:
-        - button "← Back" [ref=e154] [cursor=pointer]
-        - button "Next →" [ref=e155] [cursor=pointer]
+    - generic [ref=e98]:
+      - generic [ref=e99]: ✓
+      - heading "Thanks, Test." [level=2] [ref=e100]
+      - paragraph [ref=e101]: We've received your enquiry and will be in touch — usually within 1 business day.
+      - generic [ref=e102]:
+        - paragraph [ref=e103]: What Happens Next?
+        - paragraph [ref=e104]: You will soon receive an email with a link to sign our Privacy Consent form. Signing this form gives us your permission to use the information you supplied us with to work with lenders to get the best rate for you.
+      - button "Done" [ref=e105] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  110 |   await page.getByRole('button', { name: /next/i }).click()
+  111 | 
+  112 |   // Step 4 — Where you live
+  113 |   await page.getByLabel(/street address/i).fill('456 Sample Ave')
+  114 |   await page.getByLabel(/suburb/i).fill('Melbourne')
+  115 |   await page.getByLabel(/postcode/i).fill('3000')
+  116 |   await page.getByLabel(/residential status/i).selectOption('Renting')
+  117 |   await page.getByLabel(/monthly rental payments/i).fill('2000')
+  118 |   await page.locator('#timeAtAddressYears').fill('2')
+  119 |   await page.locator('#timeAtAddressMonths').selectOption('6')
+  120 |   await page.getByRole('button', { name: /next/i }).click()
+  121 | 
+  122 |   // Step 5 — Your job
+  123 |   await page.getByLabel(/occupation/i).fill('Teacher')
+  124 |   await page.getByLabel(/employer name/i).fill('Department of Education')
+  125 |   await page.getByLabel(/employment type/i).selectOption('Full time')
+  126 |   await page.locator('#afterTaxIncome').fill('5000')
+  127 |   await page.locator('#timeInJobYears').fill('5')
+  128 |   await page.locator('#timeInJobMonths').selectOption('0')
+  129 |   await page.getByRole('button', { name: /next/i }).click()
+  130 | 
+  131 |   // Step 6 — Expenses & consent
+  132 |   await page.getByLabel(/i consent/i).check()
+  133 |   await page.getByRole('button', { name: /send my enquiry/i }).click()
+  134 | 
+  135 |   // Success state
+  136 |   await expect(page.getByText(/thanks, jane/i)).toBeVisible({ timeout: 10000 })
+  137 | })
+  138 | 
+  139 | // ─── Validation tests ────────────────────────────────────────────────────────
+  140 | 
+  141 | test('validation — step 1 requires loan type selection', async ({ page }) => {
+  142 |   await openModal(page)
+  143 |   // Click Next without selecting a loan type
+  144 |   await page.getByRole('button', { name: /next/i }).click()
+  145 |   await expect(page.getByText(/please select a loan type/i)).toBeVisible()
+  146 | })
+  147 | 
+  148 | test('validation — step 2 requires loan amount', async ({ page }) => {
+  149 |   await openModal(page)
+  150 |   await selectToggle(page, 'Personal loan')
+  151 |   await page.getByRole('button', { name: /next/i }).click()
+  152 |   // Skip loan amount and click Next
+  153 |   await page.getByRole('button', { name: /next/i }).click()
+  154 |   await expect(page.getByText(/please enter a loan amount/i)).toBeVisible()
+  155 | })
+  156 | 
+  157 | test('validation — step 3 requires valid email', async ({ page }) => {
+  158 |   await openModal(page)
+  159 |   await selectToggle(page, 'Personal loan')
+  160 |   await page.getByRole('button', { name: /next/i }).click()
+  161 |   await page.getByLabel(/loan amount/i).fill('10000')
+  162 |   await page.getByLabel(/purpose of loan/i).fill('Test')
+  163 |   await page.getByRole('button', { name: /next/i }).click()
+  164 |   // Fill in all required fields but use an invalid email
+  165 |   await page.getByLabel(/first name/i).fill('Test')
+  166 |   await page.getByLabel(/last name/i).fill('User')
+  167 |   await page.locator('#mobile').fill('0400000000')
+  168 |   await page.getByLabel(/email/i).fill('not-an-email')
+  169 |   await page.getByLabel(/date of birth/i).fill('1990-01-01')
+  170 |   await selectToggle(page, 'Single')
+  171 |   await selectToggle(page, 'Australian Citizen')
+  172 |   await page.getByRole('button', { name: /next/i }).click()
+  173 |   await expect(page.getByText(/valid email required/i)).toBeVisible()
+  174 | })
+  175 | 
+  176 | test('validation — step 6 requires consent before submit', async ({ page }) => {
+  177 |   const email = randomEmail()
+  178 |   await openModal(page)
+  179 | 
+  180 |   // Fast-track through all steps with minimal valid data
+  181 |   await selectToggle(page, 'Personal loan')
+  182 |   await page.getByRole('button', { name: /next/i }).click()
+  183 |   await page.getByLabel(/loan amount/i).fill('5000')
+  184 |   await page.getByLabel(/purpose of loan/i).fill('Test')
+  185 |   await page.getByRole('button', { name: /next/i }).click()
+  186 |   await page.getByLabel(/first name/i).fill('Test')
+  187 |   await page.getByLabel(/last name/i).fill('User')
+  188 |   await page.locator('#mobile').fill('0400000000')
+  189 |   await page.getByLabel(/email/i).fill(email)
+  190 |   await page.getByLabel(/date of birth/i).fill('1990-01-01')
+  191 |   await selectToggle(page, 'Single')
+  192 |   await selectToggle(page, 'Australian Citizen')
+  193 |   await page.getByRole('button', { name: /next/i }).click()
+  194 |   await page.getByLabel(/street address/i).fill('123 Test St')
+  195 |   await page.getByLabel(/suburb/i).fill('Sydney')
+  196 |   await page.getByLabel(/postcode/i).fill('2000')
+  197 |   await page.getByLabel(/residential status/i).selectOption('Renting')
+  198 |   await page.getByLabel(/monthly rental payments/i).fill('1500')
+  199 |   await page.locator('#timeAtAddressYears').fill('2')
+  200 |   await page.locator('#timeAtAddressMonths').selectOption('0')
+  201 |   await page.getByRole('button', { name: /next/i }).click()
+  202 |   await page.getByLabel(/occupation/i).fill('Developer')
+  203 |   await page.getByLabel(/employment type/i).selectOption('Full time')
+  204 |   await page.locator('#afterTaxIncome').fill('5000')
+  205 |   await page.locator('#timeInJobYears').fill('2')
+  206 |   await page.locator('#timeInJobMonths').selectOption('0')
+  207 |   await page.getByRole('button', { name: /next/i }).click()
+  208 |   // Try to submit without ticking consent
+  209 |   await page.getByRole('button', { name: /send my enquiry/i }).click()
+> 210 |   await expect(page.getByText(/you must consent/i)).toBeVisible()
+      |                                                     ^ Error: expect(locator).toBeVisible() failed
+  211 | })
+  212 | 
 ```
