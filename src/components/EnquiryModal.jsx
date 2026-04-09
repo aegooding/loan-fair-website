@@ -1016,6 +1016,7 @@ const handleSubmit = async (e) => {
                     <div className="input-prefix-wrap">
                       <span className="input-prefix">$</span>
                       <input
+                        id="afterTaxIncome"
                         type="number" min="0"
                         className={`form-input input-prefix-input${errors.afterTaxIncome ? ' form-input--error' : ''}`}
                         value={form.afterTaxIncome} onChange={setField('afterTaxIncome')}
