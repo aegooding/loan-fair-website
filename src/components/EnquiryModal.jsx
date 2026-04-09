@@ -43,6 +43,12 @@ const EMPLOYMENT_TYPES = [
 
 const INCOME_FREQUENCIES = ['Weekly', 'Fortnightly', 'Monthly', 'Quarterly', 'Annually']
 
+const TITLES = ['Mr', 'Mrs', 'Ms', 'Mx', 'Dr']
+
+const GENDERS = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
+
+const LOAN_TERMS = ['1 year', '2 years', '3 years', '4 years', '5 years', '7 years']
+
 const OTHER_INCOME_SOURCES = [
   'Rental income',
   'Centrelink',
@@ -60,6 +66,7 @@ const FIXED_EXPENSE_KEYS = [
   'Internet',
   'Mobile Phone',
   'Groceries / Household Items',
+  'Childcare / Education',
   'Fuel / Public Transport',
   'Vehicle Registration',
   'Vehicle Insurance',
@@ -78,7 +85,7 @@ const DISCRETIONARY_EXPENSE_KEYS = [
 
 const EXPENSE_FREQUENCIES = ['Weekly', 'Monthly', 'Quarterly', 'Annually']
 
-const TOTAL_STEPS = 6
+const TOTAL_STEPS = 7
 
 // -------- Helpers --------
 
@@ -121,6 +128,7 @@ function fmt(n) {
 const INITIAL_FORM = {
   // Step 1 — Loan Type
   loanType: '', // 'Car loan' | 'Personal loan'
+  loanTerm: '',
 
   // Step 2 — The Basics
   loanAmount: '',
@@ -131,7 +139,9 @@ const INITIAL_FORM = {
   vehicleModel: '',
   vehicleKm: '',
 
-  // Step 2 — About You
+  // Step 3 — About You
+  title: '',
+  gender: '',
   firstName: '',
   lastName: '',
   mobile: '',
@@ -146,10 +156,11 @@ const INITIAL_FORM = {
   licenceCardNumber: '',
   licenceState: '',
 
-  // Step 3 — Where You Live
+  // Step 4 — Where You Live
   streetAddress: '',
   suburb: '',
   postcode: '',
+  addressState: '',
   residentialStatus: '',
   mortgageBalance: '',
   mortgageRepayments: '',
@@ -165,9 +176,10 @@ const INITIAL_FORM = {
   otherPropertyBalance: '',
   otherPropertyRepayments: '',
 
-  // Step 4 — Your Job
+  // Step 5 — Your Job
   occupation: '',
   employerName: '',
+  employerPhone: '',
   employmentType: '',
   afterTaxIncome: '',
   incomeFrequency: 'Monthly',
@@ -180,7 +192,18 @@ const INITIAL_FORM = {
   partnerIncome: '',
   partnerIncomeFrequency: 'Monthly',
 
-  // Step 5 — Expenses
+  // Step 6 — Assets & Liabilities
+  savingsAmount: '',
+  savingsInstitution: '',
+  sharesValue: '',
+  otherAssets: '',
+  creditCardLimit: '',
+  creditCardBalance: '',
+  personalLoanBalance: '',
+  personalLoanRepayments: '',
+  otherLiabilities: '',
+
+  // Step 7 — Expenses
   fixedExpenses: makeExpenses(FIXED_EXPENSE_KEYS),
   discretionaryExpenses: makeExpenses(DISCRETIONARY_EXPENSE_KEYS),
 
@@ -385,7 +408,7 @@ export default function EnquiryModal() {
       if (!form.afterTaxIncome) e.afterTaxIncome = 'Required'
       if (form.timeInJobYears === '') e.timeInJobYears = 'Required'
     }
-    if (s === 6) {
+    if (s === 7) {
       if (!form.consent) e.consent = 'You must consent to continue'
     }
     setErrors(e)
@@ -407,7 +430,7 @@ export default function EnquiryModal() {
 
 const handleSubmit = async (e) => {
   e.preventDefault()
-  if (!validate(6)) return
+  if (!validate(7)) return
   setLoading(true)
   setSubmitError('')
   try {
@@ -610,6 +633,15 @@ const handleSubmit = async (e) => {
                   </div>
                 )}
 
+                <div className="form-group">
+                  <p className="form-label">Preferred loan term</p>
+                  <ToggleGroup
+                    options={LOAN_TERMS}
+                    value={form.loanTerm}
+                    onChange={setToggle('loanTerm')}
+                  />
+                </div>
+
                 <div className="modal__step-nav">
                   <button type="button" className="btn-secondary" onClick={back}>← Back</button>
                   <button type="button" className="btn-primary" onClick={next}>Next →</button>
@@ -622,6 +654,15 @@ const handleSubmit = async (e) => {
               <div className="modal__step">
                 <p className="modal__step-label">Step 3 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">About you</h2>
+
+                <div className="form-group">
+                  <p className="form-label">Title</p>
+                  <ToggleGroup
+                    options={TITLES}
+                    value={form.title}
+                    onChange={setToggle('title')}
+                  />
+                </div>
 
                 <div className="form-row">
                   <div className="form-group">
@@ -685,6 +726,15 @@ const handleSubmit = async (e) => {
                     />
                     <FieldError msg={errors.maritalStatus} />
                   </div>
+                </div>
+
+                <div className="form-group">
+                  <p className="form-label">Gender <span className="form-label-optional">(optional)</span></p>
+                  <ToggleGroup
+                    options={GENDERS}
+                    value={form.gender}
+                    onChange={setToggle('gender')}
+                  />
                 </div>
 
                 <div className="form-group">
@@ -808,6 +858,16 @@ const handleSubmit = async (e) => {
                       value={form.postcode} onChange={setField('postcode')}
                     />
                     <FieldError msg={errors.postcode} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="addressState" className="form-label">State</label>
+                    <select
+                      id="addressState" className="form-input"
+                      value={form.addressState} onChange={setField('addressState')}
+                    >
+                      <option value="">Select...</option>
+                      {AU_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                    </select>
                   </div>
                 </div>
 
@@ -998,6 +1058,15 @@ const handleSubmit = async (e) => {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor="employerPhone" className="form-label">Employer phone <span className="form-label-optional">(optional)</span></label>
+                  <input
+                    id="employerPhone" type="tel" inputMode="numeric" className="form-input"
+                    value={form.employerPhone} onChange={setField('employerPhone')}
+                    placeholder="e.g. 02 9000 0000"
+                  />
+                </div>
+
+                <div className="form-group">
                   <label htmlFor="employmentType" className="form-label">Employment type *</label>
                   <select
                     id="employmentType"
@@ -1120,10 +1189,107 @@ const handleSubmit = async (e) => {
               </div>
             )}
 
-            {/* ===================== STEP 6 — Expenses + Submit ===================== */}
+            {/* ===================== STEP 6 — Assets & Liabilities ===================== */}
             {step === 6 && (
               <div className="modal__step">
                 <p className="modal__step-label">Step 6 of {TOTAL_STEPS}</p>
+                <h2 className="modal__title" id="modal-title">Assets &amp; liabilities</h2>
+                <p className="modal__intro">This helps lenders understand your overall financial position. Leave anything at zero if it doesn't apply.</p>
+
+                <p className="form-section-heading">Assets</p>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="savingsAmount" className="form-label">Savings</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="savingsAmount" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.savingsAmount} onChange={setField('savingsAmount')} placeholder="0" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="savingsInstitution" className="form-label">Held at</label>
+                    <input id="savingsInstitution" type="text" className="form-input"
+                      value={form.savingsInstitution} onChange={setField('savingsInstitution')}
+                      placeholder="e.g. Commonwealth Bank" />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="sharesValue" className="form-label">Shares / investments</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="sharesValue" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.sharesValue} onChange={setField('sharesValue')} placeholder="0" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="otherAssets" className="form-label">Other assets</label>
+                    <input id="otherAssets" type="text" className="form-input"
+                      value={form.otherAssets} onChange={setField('otherAssets')}
+                      placeholder="e.g. Boat, caravan, equipment" />
+                  </div>
+                </div>
+
+                <p className="form-section-heading">Liabilities</p>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="creditCardLimit" className="form-label">Credit card limit(s)</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="creditCardLimit" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.creditCardLimit} onChange={setField('creditCardLimit')} placeholder="0" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="creditCardBalance" className="form-label">Current balance</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="creditCardBalance" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.creditCardBalance} onChange={setField('creditCardBalance')} placeholder="0" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="personalLoanBalance" className="form-label">Personal loan balance(s)</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="personalLoanBalance" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.personalLoanBalance} onChange={setField('personalLoanBalance')} placeholder="0" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="personalLoanRepayments" className="form-label">Monthly repayments</label>
+                    <div className="input-prefix-wrap">
+                      <span className="input-prefix">$</span>
+                      <input id="personalLoanRepayments" type="number" min="0" className="form-input input-prefix-input"
+                        value={form.personalLoanRepayments} onChange={setField('personalLoanRepayments')} placeholder="0" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="otherLiabilities" className="form-label">Other liabilities</label>
+                  <input id="otherLiabilities" type="text" className="form-input"
+                    value={form.otherLiabilities} onChange={setField('otherLiabilities')}
+                    placeholder="e.g. HECS debt, buy now pay later, tax debt" />
+                </div>
+
+                <div className="modal__step-nav">
+                  <button type="button" className="btn-secondary" onClick={back}>← Back</button>
+                  <button type="button" className="btn-primary" onClick={next}>Next →</button>
+                </div>
+              </div>
+            )}
+
+            {/* ===================== STEP 7 — Expenses + Submit ===================== */}
+            {step === 7 && (
+              <div className="modal__step">
+                <p className="modal__step-label">Step 7 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">Your expenses</h2>
                 <p className="modal__intro">As best you can, give us an understanding of your monthly spending habits.</p>
 

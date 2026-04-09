@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loan Fair — Tech Stack</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a2e;
+      color: #ecdbba;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      color: #d8b384;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 48px;
+    }
+
+    .diagram {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── Rows ── */
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      position: relative;
+    }
+
+    /* ── Boxes ── */
+    .box {
+      border-radius: 12px;
+      padding: 18px 22px;
+      width: 200px;
+      text-align: center;
+      position: relative;
+    }
+
+    .box .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 6px;
+    }
+
+    .box .name {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .box .detail {
+      font-size: 0.75rem;
+      margin-top: 5px;
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    /* ── Colour themes ── */
+    .theme-user     { background: #2d4a3e; border: 2px solid #4a7a63; }
+    .theme-frontend { background: #1e3a5f; border: 2px solid #2f6cad; }
+    .theme-backend  { background: #3a2d1e; border: 2px solid #7a5a2f; }
+    .theme-data     { background: #2d1e3a; border: 2px solid #6a3a7a; }
+    .theme-crm      { background: #1e3a2d; border: 2px solid #2f7a5a; }
+    .theme-ai       { background: #3a1e2d; border: 2px solid #7a2f5a; }
+    .theme-test     { background: #1e2d3a; border: 2px solid #2f5a7a; }
+    .theme-devops       { background: #1a1a1a; border: 2px solid #555; }
+    .theme-integration  { background: #1e3535; border: 2px solid #2f8080; }
+    .theme-aggregator   { background: #2d2000; border: 2px solid #7a5500; }
+
+    /* ── Arrows ── */
+    .arrow-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      height: 56px;
+      align-items: center;
+    }
+
+    .arrow {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #aaa;
+      font-size: 0.7rem;
+      gap: 2px;
+    }
+
+    .arrow .line {
+      width: 2px;
+      height: 24px;
+      background: #555;
+    }
+
+    .arrow .head {
+      font-size: 1rem;
+      color: #d8b384;
+    }
+
+    .arrow-label {
+      font-size: 0.65rem;
+      color: #888;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* ── Horizontal connector ── */
+    .h-connector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      height: 36px;
+      position: relative;
+    }
+
+    .h-line {
+      height: 2px;
+      background: #555;
+      flex: 1;
+      max-width: 112px;
+    }
+
+    .h-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d8b384;
+    }
+
+    /* ── Side-by-side group ── */
+    .side-group {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .side-connector {
+      display: flex;
+      align-items: center;
+      height: 80px;
+      padding: 0 4px;
+    }
+
+    .side-connector .s-line {
+      width: 20px;
+      height: 2px;
+      background: #555;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      max-width: 900px;
+      margin: 48px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #666;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Loan Fair — Tech Stack Architecture</h1>
+  <p class="subtitle">How the pieces fit together</p>
+
+  <div class="diagram">
+
+    <!-- USER -->
+    <p class="section-label">End User</p>
+    <div class="row">
+      <div class="box theme-user">
+        <div class="label">Browser</div>
+        <div class="name">User</div>
+        <div class="detail">Visits loanfair.com.au<br>Submits enquiry form</div>
+      </div>
+    </div>
+
+    <!-- Arrow down -->
+    <div class="arrow-row">
+      <div class="arrow">
+        <div class="line"></div>
+        <div class="head">▼</div>
+        <div class="arrow-label">HTTPS request</div>
+      </div>
+    </div>
+
+    <!-- FRONTEND -->
+    <p class="section-label">Frontend — Vercel</p>
+    <div class="row">
+      <div class="box theme-frontend">
+        <div class="label">Hosting</div>
+        <div class="name">Vercel</div>
+        <div class="detail">CDN-deployed<br>Auto-deploys from GitHub</div>
+      </div>
+      <div class="box theme-frontend">
+        <div class="label">Framework</div>
+        <div class="name">React + Vite</div>
+        <div class="detail">SPA with React Router<br>Plain CSS, Phosphor Icons</div>
+      </div>
+    </div>
+
+    <!-- Arrow down -->
+    <div class="arrow-row">
+      <div class="arrow">
+        <div class="line"></div>
+        <div class="head">▼</div>
+        <div class="arrow-label">API calls (fetch)</div>
+      </div>
+    </div>
+
+    <!-- BACKEND -->
+    <p class="section-label">Backend — Render</p>
+    <div class="row">
+      <div class="box theme-backend">
+        <div class="label">Server</div>
+        <div class="name">Node.js + Express</div>
+        <div class="detail">REST API<br>Rate limiting, Helmet</div>
+      </div>
+      <div class="box theme-backend">
+        <div class="label">ORM</div>
+        <div class="name">Prisma</div>
+        <div class="detail">Database schema<br>Migrations</div>
+      </div>
+    </div>
+
+    <!-- Arrow row — three destinations -->
+    <div class="arrow-row" style="gap: 0; justify-content: center;">
+      <div style="width: 200px; display: flex; flex-direction: column; align-items: center;">
+        <div style="width:2px;height:24px;background:#555;"></div>
+        <div style="color:#d8b384;font-size:1rem;">▼</div>
+      </div>
+      <div style="width: 24px;"></div>
+      <div style="width: 200px; display: flex; flex-direction: column; align-items: center;">
+        <div style="width:2px;height:24px;background:#555;"></div>
+        <div style="color:#d8b384;font-size:1rem;">▼</div>
+      </div>
+      <div style="width: 24px;"></div>
+      <div style="width: 200px; display: flex; flex-direction: column; align-items: center;">
+        <div style="width:2px;height:24px;background:#555;"></div>
+        <div style="color:#d8b384;font-size:1rem;">▼</div>
+      </div>
+    </div>
+
+    <!-- SERVICES ROW -->
+    <p class="section-label">Services</p>
+    <div class="row" style="gap: 24px;">
+      <div class="box theme-data">
+        <div class="label">Database</div>
+        <div class="name">Supabase</div>
+        <div class="detail">PostgreSQL<br>Enquiry & lender data</div>
+      </div>
+      <div class="box theme-crm">
+        <div class="label">CRM</div>
+        <div class="name">HubSpot</div>
+        <div class="detail">Contacts &amp; deals<br>Enquiry pipeline</div>
+      </div>
+      <div class="box theme-ai">
+        <div class="label">AI</div>
+        <div class="name">Claude API</div>
+        <div class="detail">Anthropic SDK<br>Loan assessment AI</div>
+      </div>
+    </div>
+
+    <!-- Arrow to integrations -->
+    <div class="arrow-row" style="gap: 0; justify-content: center;">
+      <div style="width: 200px; display: flex; flex-direction: column; align-items: center;">
+        <div style="width:2px;height:24px;background:#555;"></div>
+        <div style="color:#d8b384;font-size:1rem;">▼</div>
+        <div class="arrow-label">automation</div>
+      </div>
+    </div>
+
+    <!-- INTEGRATIONS ROW -->
+    <p class="section-label">Integrations</p>
+    <div class="row" style="gap: 24px;">
+      <div class="box theme-integration">
+        <div class="label">Automation</div>
+        <div class="name">Make.com</div>
+        <div class="detail">Connects enquiry data<br>to aggregator CRM</div>
+      </div>
+      <div class="box theme-aggregator">
+        <div class="label">Aggregator CRM</div>
+        <div class="name">AFOS</div>
+        <div class="detail">New lead intake<br><span style="color:#f0a0a0;font-size:0.7rem;">⚠ API gap: expenses not supported</span></div>
+      </div>
+    </div>
+
+    <!-- Spacer -->
+    <div style="height: 48px;"></div>
+
+    <!-- DEV / CI ROW -->
+    <p class="section-label">Development &amp; CI/CD</p>
+    <div class="row" style="gap: 24px;">
+      <div class="box theme-devops">
+        <div class="label">Source control</div>
+        <div class="name">GitHub</div>
+        <div class="detail">Push to main triggers<br>Vercel auto-deploy</div>
+      </div>
+      <div class="box theme-test">
+        <div class="label">Testing</div>
+        <div class="name">Playwright</div>
+        <div class="detail">End-to-end tests<br>Happy path + validation</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#2f6cad;"></div> Frontend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7a5a2f;"></div> Backend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6a3a7a;"></div> Database</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2f7a5a;"></div> CRM</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7a2f5a;"></div> AI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2f8080;"></div> Integrations</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7a5500;"></div> Aggregator CRM</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#555;"></div> DevOps / Testing</div>
+  </div>
+
+</body>
+</html>
