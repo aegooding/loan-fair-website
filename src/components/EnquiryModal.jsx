@@ -503,7 +503,7 @@ const handleSubmit = async (e) => {
                 </p>
                 <p className="modal__intro">
                   Prefer to speak with someone first?{' '}
-                  <a href="mailto:hello@loanfair.com.au">Send us an email</a> and we'll give you a call.
+                  <a href="/contact" target="_blank" rel="noopener noreferrer">Send us a message</a> and we'll give you a call.
                 </p>
 
                 <div className="form-group">

@@ -30,6 +30,7 @@ export default function Footer() {
             </div>
             <div className="footer__col">
               <p className="footer__col-heading">Legal</p>
+              <Link to="/contact" className="footer__link">Contact Us</Link>
               <Link to="/privacy" className="footer__link">Privacy Policy</Link>
               <Link to="/complaints" className="footer__link">Complaints Handling</Link>
               <Link to="/terms" className="footer__link">Terms of Use</Link>

@@ -1,0 +1,56 @@
+/* =====================================================
+   CONTACT PAGE
+   ===================================================== */
+
+.contact-hero {
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+.contact-body__inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   FORM
+   =========================== */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.contact-form__error {
+  color: #f4a261;
+  font-size: 0.9rem;
+}
+
+.contact-form__error a {
+  color: var(--sand);
+}
+
+/* ===========================
+   SUCCESS STATE
+   =========================== */
+.contact-success {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.contact-success h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--sand);
+  margin-bottom: 1rem;
+}
+
+.contact-success p {
+  color: var(--cream);
+  font-size: 1.1rem;
+}

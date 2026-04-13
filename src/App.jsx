@@ -16,6 +16,7 @@ import PrivacyPage from './pages/PrivacyPage'
 import PricingPage from './pages/PricingPage'
 import TermsPage from './pages/TermsPage'
 import ComplaintsPage from './pages/ComplaintsPage'
+import ContactPage from './pages/ContactPage'
 
 // Scrolls the window to the top whenever the route (page URL) changes
 function ScrollToTop() {
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/complaints" element={<ComplaintsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
         <Footer />
