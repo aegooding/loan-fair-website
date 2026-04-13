@@ -57,7 +57,7 @@ app.use('/api/v1/ai', authenticate, aiRoutes);
 app.use('/api/v1/reports', authenticate, reportRoutes);
 
 // Contact form (no auth required)
-app.use('/contact', contactRoutes);
+app.use('/api/v1/contact', contactRoutes);
 
 // Health check
 app.get('/health', (req, res) =>
