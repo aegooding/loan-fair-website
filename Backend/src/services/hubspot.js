@@ -126,6 +126,7 @@ export const updateHubSpotDeal = async (crmEnquiryId, updates) => {
   if (updates.loanAmount) properties.amount = updates.loanAmount.toString();
   if (updates.aiScore !== undefined) properties.ai_eligibility_score = updates.aiScore.toString();
   if (updates.aiSummary) properties.ai_summary = updates.aiSummary;
+  if (updates.afosNotes) properties.afos_notes = updates.afosNotes;
 
   return hubspotFetch(`/crm/v3/objects/deals/${crmEnquiryId}`, {
     method: 'PATCH',
@@ -220,6 +221,40 @@ export const createEnquiryNote = async (crmEnquiryId, client, enquiry) => {
   lines.push('', `Reference: ${enquiry.reference}`);
 
   return addHubSpotNote(crmEnquiryId, lines.join('<br>'));
+};
+
+// Short note for AFOS — expenses only + additional info (keeps payload small)
+export const createAfosNote = (client, enquiry) => {
+  const fmt = (n) => (n != null ? `$${Number(n).toLocaleString('en-AU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` : '—');
+
+  const lines = [
+    `Ref: ${enquiry.reference}`,
+    '',
+    'EXPENSES (monthly)',
+    `Fixed:         ${fmt(client.monthlyFixedExpenses)}`,
+    `Discretionary: ${fmt(client.monthlyDiscretionaryExpenses)}`,
+    `Total:         ${fmt(client.monthlyExpenses)}`,
+  ];
+
+  if (client.fixedExpenses && typeof client.fixedExpenses === 'object') {
+    lines.push('', 'Fixed breakdown:');
+    for (const [k, v] of Object.entries(client.fixedExpenses)) {
+      if (Number(v) > 0) lines.push(`  ${k}: ${fmt(v)}`);
+    }
+  }
+
+  if (client.discretionaryExpenses && typeof client.discretionaryExpenses === 'object') {
+    lines.push('', 'Discretionary breakdown:');
+    for (const [k, v] of Object.entries(client.discretionaryExpenses)) {
+      if (Number(v) > 0) lines.push(`  ${k}: ${fmt(v)}`);
+    }
+  }
+
+  if (client.additionalInfo) {
+    lines.push('', 'Additional info:', client.additionalInfo);
+  }
+
+  return lines.join('\n');
 };
 
 export const addHubSpotNote = async (crmEnquiryId, content, timestamp = new Date()) => {

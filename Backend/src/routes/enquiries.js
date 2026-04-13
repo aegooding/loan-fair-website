@@ -3,7 +3,7 @@ import { prisma } from '../lib/prisma.js';
 import { requireRole } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { runFullAssessment, scoreEnquiry, matchLenders, generateBrokerNarrative } from '../services/ai.js';
-import { createHubSpotContact, createHubSpotDeal, updateHubSpotDeal, addHubSpotNote, createEnquiryNote } from '../services/hubspot.js';
+import { createHubSpotContact, createHubSpotDeal, updateHubSpotDeal, addHubSpotNote, createEnquiryNote, createAfosNote } from '../services/hubspot.js';
 import { queueWebhook } from './webhooks.js';
 import { generateReference, logAudit } from '../lib/utils.js';
 import { calculateCarLtv } from '../services/rateMatrix.js';
@@ -178,6 +178,10 @@ router.post('/', async (req, res, next) => {
 
       // 3. Attach a note with the full financial/personal breakdown
       await createEnquiryNote(crmId, client, enquiry);
+
+      // 4. Store short expenses-only note as a deal property for Make.com → AFOS
+      const afosNote = createAfosNote(client, enquiry);
+      await updateHubSpotDeal(crmId, { afosNotes: afosNote });
     } catch (e) { console.error('HubSpot sync failed:', e.message); }
 
     await logAudit(req.user.id, 'enquiry.created', enquiry.id, 'Enquiry');
