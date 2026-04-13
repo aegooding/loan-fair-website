@@ -83,14 +83,24 @@ export const createHubSpotDeal = async (enquiry, client, user) => {
     .filter(Boolean)
     .join(' ');
 
+  // Derive "Is Property Owner" from residential status or other property mortgage
+  const ownsProperty =
+    ['Mortgage', 'Own outright'].includes(client.residencyStatus) ||
+    client.otherPropertyMortgage === 'Yes';
+
   const body = {
     properties: {
-      dealname:  `${user.name} — ${vehicleDesc || enquiry.loanType} — ${enquiry.reference}`,
-      amount:    enquiry.loanAmount?.toString() || '0',
-      dealstage: STAGE_MAP[enquiry.status] || 'appointmentscheduled',
-      pipeline:  'default',
-      closedate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-      description: `Loan Fair ref: ${enquiry.reference} | Type: ${enquiry.loanType}${vehicleDesc ? ` | Vehicle: ${vehicleDesc}` : ''}`,
+      dealname:          `${user.name} — ${vehicleDesc || enquiry.loanType} — ${enquiry.reference}`,
+      amount:            enquiry.loanAmount?.toString() || '0',
+      dealstage:         STAGE_MAP[enquiry.status] || 'appointmentscheduled',
+      pipeline:          'default',
+      closedate:         new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      description:       `Loan Fair ref: ${enquiry.reference} | Type: ${enquiry.loanType}${vehicleDesc ? ` | Vehicle: ${vehicleDesc}` : ''}`,
+      loan_type:         enquiry.loanType || '',
+      loan_term_months:  enquiry.loanTerm?.toString() || '',
+      employment_type:   client.employmentStatus || '',
+      residency_status:  client.citizenshipStatus || '',
+      is_property_owner: ownsProperty ? 'Yes' : 'No',
     },
     associations: client.crmClientId
       ? [

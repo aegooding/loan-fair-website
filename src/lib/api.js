@@ -106,12 +106,18 @@ export const submitEnquiryToBackend = async (form) => {
   // Step 3 — Build enquiry payload, differentiating by loan type
   const isCarLoan = form.loanType === 'Car loan'
 
+  // Parse loan term string ("3 years") into a number of months
+  const loanTermMonths = form.loanTerm
+    ? parseInt(form.loanTerm) * 12
+    : null;
+
   const enquiryPayload = {
     clientId,
     loanType: isCarLoan
       ? (form.vehicleCondition === 'New / Demo' ? 'CAR_LOAN_NEW' : 'CAR_LOAN_USED')
       : 'PERSONAL_LOAN',
     loanAmount: parseFloat(form.loanAmount) || 0,
+    loanTerm: loanTermMonths,
     // Vehicle fields — only for car loans
     ...(isCarLoan && {
       vehicleMake: form.vehicleMake || null,
@@ -127,6 +133,8 @@ export const submitEnquiryToBackend = async (form) => {
     }),
     clientData: {
       // Identity
+      title: form.title || null,
+      gender: form.gender || null,
       dateOfBirth: form.dateOfBirth || null,
       maritalStatus: form.maritalStatus || null,
       citizenshipStatus: form.citizenshipStatus || null,
@@ -140,7 +148,7 @@ export const submitEnquiryToBackend = async (form) => {
       address: `${form.streetAddress}, ${form.suburb} ${form.postcode}`,
       streetAddress: form.streetAddress || null,
       city: form.suburb || null,
-      state: form.licenceState || null,
+      state: form.addressState || form.licenceState || null,
       postcode: form.postcode || null,
       residencyStatus: form.residentialStatus || null,
       mortgageBalance: form.mortgageBalance ? parseFloat(form.mortgageBalance) : null,
@@ -162,6 +170,7 @@ export const submitEnquiryToBackend = async (form) => {
       occupation: form.occupation || null,
       employmentStatus: mapEmploymentType(form.employmentType),
       employerName: form.employerName || null,
+      employerPhone: form.employerPhone || null,
       employmentYears,
       timeInJobYears: parseInt(form.timeInJobYears) || 0,
       timeInJobMonths: parseInt(form.timeInJobMonths) || 0,
@@ -176,6 +185,17 @@ export const submitEnquiryToBackend = async (form) => {
       partnerAnnualIncome,
       partnerIncome: parseFloat(form.partnerIncome) || 0,
       partnerIncomeFrequency: form.partnerIncomeFrequency || null,
+      // Assets
+      savingsAmount: form.savingsAmount ? parseFloat(form.savingsAmount) : null,
+      savingsInstitution: form.savingsInstitution || null,
+      sharesValue: form.sharesValue ? parseFloat(form.sharesValue) : null,
+      otherAssets: form.otherAssets || null,
+      // Liabilities
+      creditCardLimit: form.creditCardLimit ? parseFloat(form.creditCardLimit) : null,
+      creditCardBalance: form.creditCardBalance ? parseFloat(form.creditCardBalance) : null,
+      personalLoanBalance: form.personalLoanBalance ? parseFloat(form.personalLoanBalance) : null,
+      personalLoanRepayments: form.personalLoanRepayments ? parseFloat(form.personalLoanRepayments) : null,
+      otherLiabilities: form.otherLiabilities || null,
       // Expenses — totals
       monthlyExpenses,
       monthlyFixedExpenses: expenseTotal(form.fixedExpenses),
