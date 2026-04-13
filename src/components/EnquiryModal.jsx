@@ -498,12 +498,10 @@ const handleSubmit = async (e) => {
                   To understand what finance options are available to you, we need to get a picture of your financial position. This typically takes around 10 minutes.
                 </p>
                 <p className="modal__intro">
-                  Your enquiry won't appear on or impact your credit record. Want to understand why we ask for so much detail?{' '}
-                  <a href="/learn/why-your-rate-is-personal" target="_blank" rel="noopener noreferrer">Read about how interest rates are calculated.</a>
+                  Your enquiry won't appear on or impact your credit record. Read about how interest rates are calculated <a href="/learn/why-your-rate-is-personal" target="_blank" rel="noopener noreferrer">here</a>.
                 </p>
                 <p className="modal__intro">
-                  Prefer to speak with someone first?{' '}
-                  <a href="/contact" target="_blank" rel="noopener noreferrer">Send us a message</a> and we'll give you a call.
+                  Prefer to speak with someone first? Send us a message <a href="/contact" target="_blank" rel="noopener noreferrer">here</a> and we'll give you a call.
                 </p>
 
                 <div className="form-group">
