@@ -436,6 +436,76 @@ export const articles = [
     related: ['how-to-compare-car-loans', 'what-is-broker-margin', '5-questions-before-signing'],
   },
   {
+    slug: 'why-your-rate-is-personal',
+    title: 'Why your interest rate is personal — not advertised',
+    category: 'Finance 101',
+    date: 'April 2025',
+    excerpt: 'Unlike home loans, car loan and personal loan rates aren\'t set in stone. Here\'s why two people borrowing the same amount can end up on very different rates.',
+    content: [
+      {
+        type: 'p',
+        text: 'If you\'ve ever shopped for a home loan, you\'re used to seeing rates published clearly — 6.14%, 6.29%, take your pick. Car loans and personal loans don\'t work that way. The rate you\'re offered isn\'t plucked from a billboard. It\'s calculated specifically for you, based on your individual financial profile.',
+      },
+      {
+        type: 'h2',
+        text: 'There is no single "market rate" for personal lending',
+      },
+      {
+        type: 'p',
+        text: 'Home loans are largely standardised products with rates tied closely to the RBA cash rate. Car loans and personal loans are different. Each lender maintains a rate range — say, 6% to 18% — and where you land within that range depends on a risk assessment of your specific application. Two people borrowing $20,000 from the same lender on the same day can be offered rates several percentage points apart.',
+      },
+      {
+        type: 'pullquote',
+        text: 'The advertised rate is the best rate available — offered to the most creditworthy applicants. Most people don\'t get the advertised rate.',
+      },
+      {
+        type: 'h2',
+        text: 'What lenders look at',
+      },
+      {
+        type: 'p',
+        text: 'Every lender runs their own credit assessment model, but the factors they consider include: your credit history and score, your employment type and stability, your income and how reliably it\'s received, your living arrangements and whether you rent or own, your existing debts and financial commitments, the loan term and amount, and — for car loans — the age and type of vehicle.',
+      },
+      {
+        type: 'h2',
+        text: 'Different lenders weight these factors differently',
+      },
+      {
+        type: 'p',
+        text: 'This is the part most people don\'t realise. Lender A might be conservative about self-employed income but relaxed about renters. Lender B might be the opposite. One lender might penalise you for a minor credit blemish from three years ago; another might overlook it entirely if your recent history is clean. The same application, submitted to ten different lenders, can return ten different rates.',
+      },
+      {
+        type: 'h2',
+        text: 'Why this is why brokers exist',
+      },
+      {
+        type: 'p',
+        text: 'Because rates are individualised and lender appetites vary, the only way to know what rate you\'ll actually be offered is to understand your financial position thoroughly and match it to the right lenders. That\'s the core job of a broker. Without that process, you\'re either guessing, or applying broadly and accumulating credit enquiries — which can actually lower your score and make your position worse.',
+      },
+      {
+        type: 'pullquote',
+        text: 'Applying to multiple lenders directly to compare rates isn\'t free — each application leaves a mark on your credit file.',
+      },
+      {
+        type: 'h2',
+        text: 'Why we ask for so much information upfront',
+      },
+      {
+        type: 'p',
+        text: 'When you submit an enquiry with Loan Fair, we ask for a detailed picture of your financial position — employment, income, expenses, assets, liabilities, living arrangements. This isn\'t bureaucracy for its own sake. It\'s the information we need to assess which lenders are likely to approve you, and at what rate, before a single credit enquiry is made on your file. The more accurate the picture, the better we can match you.',
+      },
+      {
+        type: 'h2',
+        text: 'What this means for you',
+      },
+      {
+        type: 'p',
+        text: 'Don\'t assume you\'ll get the rate in the ad. Do make sure whoever is helping you has a full picture of your finances before they approach lenders. And understand that the goal isn\'t just approval — it\'s approval at the right rate, from the right lender, for your specific situation.',
+      },
+    ],
+    related: ['credit-score-and-your-loan-rate', 'what-is-broker-margin', 'how-to-compare-car-loans'],
+  },
+  {
     slug: 'new-vs-used-car-finance',
     title: 'New vs used car finance: what actually changes?',
     category: 'Practical Guide',

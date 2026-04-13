@@ -495,7 +495,15 @@ const handleSubmit = async (e) => {
                 <p className="modal__step-label">Step 1 of {TOTAL_STEPS}</p>
                 <h2 className="modal__title" id="modal-title">What are you looking for?</h2>
                 <p className="modal__intro">
-                  Let's start with the type of loan you need.
+                  To understand what finance options are available to you, we need to get a picture of your financial position. This typically takes around 10 minutes.
+                </p>
+                <p className="modal__intro">
+                  Your enquiry won't appear on or impact your credit record. Want to understand why we ask for so much detail?{' '}
+                  <a href="/learn/why-your-rate-is-personal" target="_blank" rel="noopener noreferrer">Read about how interest rates are calculated.</a>
+                </p>
+                <p className="modal__intro">
+                  Prefer to speak with someone first?{' '}
+                  <a href="mailto:hello@loanfair.com.au">Send us an email</a> and we'll give you a call.
                 </p>
 
                 <div className="form-group">
