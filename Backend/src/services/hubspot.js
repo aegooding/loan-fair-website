@@ -126,7 +126,7 @@ export const updateHubSpotDeal = async (crmEnquiryId, updates) => {
   if (updates.loanAmount) properties.amount = updates.loanAmount.toString();
   if (updates.aiScore !== undefined) properties.ai_eligibility_score = updates.aiScore.toString();
   if (updates.aiSummary) properties.ai_summary = updates.aiSummary;
-  if (updates.afosNotes) properties.afos_notes = updates.afosNotes;
+  if (updates.afosNotes) properties.afos_note = updates.afosNotes;
 
   return hubspotFetch(`/crm/v3/objects/deals/${crmEnquiryId}`, {
     method: 'PATCH',
