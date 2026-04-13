@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 
 import authRoutes from './routes/auth.js';
 import enquiryRoutes from './routes/enquiries.js';
+import contactRoutes from './routes/contact.js';
 import lenderRoutes from './routes/lenders.js';
 import { crmRouter as crmRoutes, aiRouter as aiRoutes, webhookRouter as webhookRoutes, clientsRouter as clientRoutes, documentsRouter as documentRoutes, applicationsRouter as applicationRoutes, reportsRouter as reportRoutes } from './routes/other.js';
 
@@ -54,6 +55,9 @@ app.use('/api/v1/lenders', authenticate, lenderRoutes);
 app.use('/api/v1/crm', authenticate, crmRoutes);
 app.use('/api/v1/ai', authenticate, aiRoutes);
 app.use('/api/v1/reports', authenticate, reportRoutes);
+
+// Contact form (no auth required)
+app.use('/contact', contactRoutes);
 
 // Health check
 app.get('/health', (req, res) =>
