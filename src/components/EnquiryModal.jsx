@@ -85,7 +85,7 @@ const DISCRETIONARY_EXPENSE_KEYS = [
 
 const EXPENSE_FREQUENCIES = ['Weekly', 'Monthly', 'Quarterly', 'Annually']
 
-const TOTAL_STEPS = 7
+const TOTAL_STEPS = 1
 
 // -------- Helpers --------
 
@@ -492,10 +492,9 @@ const handleSubmit = async (e) => {
             {/* ===================== STEP 1 — Loan Type ===================== */}
             {step === 1 && (
               <div className="modal__step">
-                <p className="modal__step-label">Step 1 of {TOTAL_STEPS}</p>
-                <h2 className="modal__title" id="modal-title">What are you looking for?</h2>
+                <h2 className="modal__title" id="modal-title">Get a quote</h2>
                 <p className="modal__intro">
-                  To understand what finance options are available to you, we need to get a picture of your financial position. This typically takes around 10 minutes.
+                  Select your loan type below to get an instant quote. The process takes just a few minutes and includes digital signing.
                 </p>
                 <p className="modal__intro">
                   Your enquiry won't appear on or impact your credit record. Read about how interest rates are calculated <a href="/learn/why-your-rate-is-personal" target="_blank" rel="noopener noreferrer">here</a>.
@@ -505,18 +504,16 @@ const handleSubmit = async (e) => {
                 </p>
 
                 <div className="form-group">
-                  <ToggleGroup
-                    options={['Car loan', 'Personal loan']}
-                    value={form.loanType}
-                    onChange={setToggle('loanType')}
-                    error={errors.loanType}
-                  />
-                  <FieldError msg={errors.loanType} />
+                  <label className="form-label" style={{ marginBottom: '1rem' }}>What are you looking for? *</label>
+                  <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+                    <a href="https://loanfair.afos.io/car-loans/quick-quote" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textAlign: 'center', textDecoration: 'none' }}>
+                      Get a car loan quote
+                    </a>
+                    <a href="https://loanfair.afos.io/personal-loans/quick-quote" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textAlign: 'center', textDecoration: 'none' }}>
+                      Get a personal loan quote
+                    </a>
+                  </div>
                 </div>
-
-                <button type="button" className="btn-primary modal__next" onClick={next}>
-                  Next →
-                </button>
               </div>
             )}
 
