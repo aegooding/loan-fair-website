@@ -48,13 +48,10 @@ export default function AboutPage() {
       {/* Principles */}
       <PrinciplesDeep />
 
-      {/* Team placeholder */}
-      <TeamSection />
-
       {/* CTA */}
       <section className="about-cta bg-green section-padding">
         <div className="container about-cta__inner reveal" ref={useScrollReveal()}>
-          <h2 className="about-cta__headline">Want to see the difference?</h2>
+          <h2 className="about-cta__headline">Want to experience the difference?</h2>
           <button className="btn-primary about-cta__btn" onClick={open}>
             Enquire Now →
           </button>
@@ -174,17 +171,3 @@ function PrincipleDeepCard({ principle, delay }) {
   )
 }
 
-function TeamSection() {
-  const ref = useScrollReveal()
-  return (
-    <section className="about-team bg-green section-padding">
-      <div className="container">
-        <div className="about-team__placeholder reveal" ref={ref}>
-          <p className="about-team__eyebrow">The team</p>
-          <h2 className="about-team__heading">Meet the team</h2>
-          <p className="about-team__body">Coming soon.</p>
-        </div>
-      </div>
-    </section>
-  )
-}
