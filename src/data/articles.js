@@ -563,6 +563,108 @@ export const articles = [
     ],
     related: ['what-is-a-balloon-payment', 'how-to-compare-car-loans', 'credit-score-and-your-loan-rate'],
   },
+  {
+    slug: 'financing-grey-import-cars',
+    title: 'Financing a grey import: what lenders actually think',
+    category: 'Practical Guide',
+    date: 'April 2025',
+    excerpt: 'Grey import cars can be brilliant finds — but getting finance for one is a different game. Here\'s what you need to know before you start.',
+    content: [
+      {
+        type: 'p',
+        text: 'Grey import cars have a dedicated following in Australia. Japanese domestic market (JDM) Skylines, right-hand drive Defenders, rare European variants that were never sold here officially — for the right buyer, they\'re exactly what they want. But when it comes to financing one, most lenders react very differently to a grey import than they do to a standard Australian-market vehicle.',
+      },
+      {
+        type: 'h2',
+        text: 'What is a grey import?',
+      },
+      {
+        type: 'p',
+        text: 'A grey import is a vehicle that was manufactured for sale in another country and brought into Australia outside of the manufacturer\'s official distribution channel. Most grey imports in Australia come from Japan, the UK, or Europe. They\'re not counterfeit or illegal — but they were never sold through an authorised Australian dealer, and they often have specifications that differ from the Australian-market equivalent.',
+      },
+      {
+        type: 'p',
+        text: 'To be registered and driven in Australia, a grey import must be made compliant with Australian Design Rules (ADR). This typically happens through a registered automotive workshop that issues a compliance plate. If the vehicle has a compliance plate and is registered in Australia, it\'s legal to own and drive. Getting it financed is a separate question.',
+      },
+      {
+        type: 'h2',
+        text: 'Why most lenders won\'t touch them',
+      },
+      {
+        type: 'p',
+        text: 'Mainstream lenders — the ones you\'d recognise by name — decline grey imports more often than not. The reasons come down to risk. Lenders use the vehicle as collateral: if you default, they repossess it and sell it to recover the debt. For a grey import, that process is harder.',
+      },
+      {
+        type: 'p',
+        text: 'Standard valuation guides like RedBook and Glass\'s are built around Australian-market vehicles. A JDM-spec Nissan Stagea or a UK-spec Land Rover Defender 90 may not appear in those databases at all, or may be listed without reliable pricing data. Without a reliable market value, a lender can\'t confidently calculate the loan-to-value ratio — and without that, they\'re flying blind on their collateral.',
+      },
+      {
+        type: 'pullquote',
+        text: 'If a lender can\'t determine what your car is worth on the open market, they can\'t comfortably use it as security for a loan.',
+      },
+      {
+        type: 'h2',
+        text: 'The compliance question',
+      },
+      {
+        type: 'p',
+        text: 'Even if a lender is open to grey imports in principle, they\'ll scrutinise the compliance status closely. Some grey imports were complianced decades ago and have a long Australian registration history — lenders tend to be more comfortable with these. Others were imported recently, or carry compliance documentation that isn\'t straightforward to verify. The more complex the compliance history, the harder the finance conversation becomes.',
+      },
+      {
+        type: 'p',
+        text: 'Lenders may also request an independent inspection or valuation report. This adds time and cost to your purchase process, and the outcome isn\'t guaranteed — a specialist may value the vehicle lower than you paid, which affects how much a lender will offer.',
+      },
+      {
+        type: 'h2',
+        text: 'Age limits hit harder on imports',
+      },
+      {
+        type: 'p',
+        text: 'Most lenders apply an age cap on vehicles they\'ll finance — typically the car must be no older than 12 years at the end of the loan term. A classic JDM vehicle from the early 2000s may already be beyond that window, effectively ruling out standard car finance regardless of its condition or value. Specialist lenders sometimes apply more flexible rules, but this is the exception, not the norm.',
+      },
+      {
+        type: 'h2',
+        text: 'Which lenders will consider a grey import?',
+      },
+      {
+        type: 'p',
+        text: 'There are specialist and non-bank lenders in Australia that specifically accommodate grey imports and modified or unusual vehicles. They tend to have wider valuation methods, more flexible age limits, and underwriters with experience in uncommon vehicles. The trade-off is that their rates are generally higher — you\'re paying for the added risk they\'re taking on.',
+      },
+      {
+        type: 'p',
+        text: 'The practical step is to work with a broker who has access to these specialist lenders and knows which ones will look favourably at your specific vehicle. A broker who only works with mainstream panel lenders will likely come back with declines — not because you\'re not creditworthy, but because the vehicle doesn\'t fit their criteria.',
+      },
+      {
+        type: 'pullquote',
+        text: 'The right lender for a grey import is rarely the most obvious one. A broker who knows the specialist market makes a real difference here.',
+      },
+      {
+        type: 'h2',
+        text: 'What to have ready before you apply',
+      },
+      {
+        type: 'p',
+        text: 'If you\'re serious about financing a grey import, being well-prepared speeds up the process considerably. At a minimum, have ready: the vehicle\'s compliance plate details and compliance certificate, full registration history in Australia, the PPSR (Personal Property Securities Register) certificate confirming no outstanding finance, and any independent valuation or inspection reports you can get. The more documentation you have upfront, the better the lender\'s confidence in the asset.',
+      },
+      {
+        type: 'h2',
+        text: 'Consider your deposit',
+      },
+      {
+        type: 'p',
+        text: 'For standard car finance, lenders often lend up to 100% of the vehicle\'s value. For grey imports, many lenders will cap the loan at 80–90% of their assessed value — which may be lower than the purchase price. Having a meaningful deposit — typically 20% or more — significantly improves your chances of approval and gives you a buffer if the lender\'s valuation comes in below what you\'re paying.',
+      },
+      {
+        type: 'h2',
+        text: 'The bottom line',
+      },
+      {
+        type: 'p',
+        text: 'Financing a grey import is possible — but it requires the right lender, the right documentation, and realistic expectations on rate and LVR. If you\'re buying a vehicle that doesn\'t appear in the standard Australian market guides, don\'t approach mainstream lenders directly and expect a smooth run. Work with a broker who understands the specialist market and can match your vehicle to lenders who will actually consider it.',
+      },
+    ],
+    related: ['new-vs-used-car-finance', 'credit-score-and-your-loan-rate', 'how-to-compare-car-loans'],
+  },
 ]
 
 // Helper to find an article by slug
