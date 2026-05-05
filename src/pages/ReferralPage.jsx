@@ -7,6 +7,7 @@ export default function ReferralPage() {
   const [form, setForm] = useState({
     referrerName: '',
     referrerEmail: '',
+    referrerBusiness: '',
     referredName: '',
     referredEmail: '',
     referredPhone: '',
@@ -20,6 +21,7 @@ export default function ReferralPage() {
   const validate = () => {
     const e = {}
     if (!form.referrerName.trim()) e.referrerName = 'Required'
+    if (!form.referrerEmail.trim() || !/\S+@\S+\.\S+/.test(form.referrerEmail)) e.referrerEmail = 'Valid email required'
     if (!form.referredName.trim()) e.referredName = 'Required'
     if (!form.referredEmail.trim() && !form.referredPhone.trim()) {
       e.referredEmail = 'Please provide at least an email or phone number'
@@ -87,16 +89,29 @@ export default function ReferralPage() {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="referrer-email" className="form-label">Your email <span className="form-label--optional">(optional)</span></label>
+                    <label htmlFor="referrer-email" className="form-label">Your email *</label>
                     <input
                       id="referrer-email"
                       type="email"
-                      className="form-input"
+                      className={`form-input${errors.referrerEmail ? ' form-input--error' : ''}`}
                       value={form.referrerEmail}
                       onChange={set('referrerEmail')}
                       placeholder="your@email.com"
                     />
+                    {errors.referrerEmail && <p className="field-error">{errors.referrerEmail}</p>}
                   </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="referrer-business" className="form-label">Business name <span className="form-label--optional">(optional)</span></label>
+                  <input
+                    id="referrer-business"
+                    type="text"
+                    className="form-input"
+                    value={form.referrerBusiness}
+                    onChange={set('referrerBusiness')}
+                    placeholder="Your business or organisation"
+                  />
                 </div>
               </div>
 

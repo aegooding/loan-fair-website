@@ -6,25 +6,26 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post('/', async (req, res, next) => {
   try {
-    const { referrerName, referrerEmail, referredName, referredEmail, referredPhone, note } = req.body;
+    const { referrerName, referrerEmail, referrerBusiness, referredName, referredEmail, referredPhone, note } = req.body;
 
-    if (!referrerName || !referredName || (!referredEmail && !referredPhone)) {
+    if (!referrerName || !referrerEmail || !referredName || (!referredEmail && !referredPhone)) {
       return res.status(400).json({
         success: false,
-        message: 'Referrer name, referred person\'s name, and at least one contact detail are required',
+        message: 'Referrer name, referrer email, referred person\'s name, and at least one contact detail are required',
       });
     }
 
     await resend.emails.send({
       from: 'Loan Fair Website <noreply@loanfair.com.au>',
       to: 'andrew@loanfair.com.au',
-      replyTo: referrerEmail || undefined,
+      replyTo: referrerEmail,
       subject: `New referral from ${referrerName}`,
       html: `
         <h2>New Referral</h2>
         <h3>Referred by</h3>
         <p><strong>Name:</strong> ${referrerName}</p>
-        ${referrerEmail ? `<p><strong>Email:</strong> ${referrerEmail}</p>` : ''}
+        <p><strong>Email:</strong> ${referrerEmail}</p>
+        ${referrerBusiness ? `<p><strong>Business:</strong> ${referrerBusiness}</p>` : ''}
         <hr />
         <h3>Referred person</h3>
         <p><strong>Name:</strong> ${referredName}</p>
