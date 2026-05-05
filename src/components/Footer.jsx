@@ -27,6 +27,7 @@ export default function Footer() {
               <Link to="/about" className="footer__link">About</Link>
               <Link to="/learn" className="footer__link">Learn</Link>
               <Link to="/faq" className="footer__link">FAQ</Link>
+              <Link to="/referral" className="footer__link">Refer a Friend</Link>
             </div>
             <div className="footer__col">
               <p className="footer__col-heading">Legal</p>

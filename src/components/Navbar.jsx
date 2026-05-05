@@ -14,6 +14,7 @@ const navLinks = [
   { to: '/about', label: 'About' },
   { to: '/learn', label: 'Learn' },
   { to: '/faq', label: 'FAQ' },
+  { to: '/referral', label: 'Refer a Friend' },
 ]
 
 export default function Navbar() {

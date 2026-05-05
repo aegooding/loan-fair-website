@@ -1,0 +1,71 @@
+/* =====================================================
+   REFERRAL PAGE
+   ===================================================== */
+
+.referral-hero {
+  padding-top: calc(60px + var(--section-padding));
+  padding-bottom: var(--section-padding);
+}
+
+.referral-body__inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   FORM
+   =========================== */
+.referral-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.referral-form__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.referral-form__section-heading {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--sand);
+  margin: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.referral-form__submit {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.referral-form__error {
+  color: #f4a261;
+  font-size: 0.9rem;
+}
+
+.referral-form__error a {
+  color: var(--sand);
+}
+
+/* ===========================
+   SUCCESS STATE
+   =========================== */
+.referral-success {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.referral-success h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--sand);
+  margin-bottom: 1rem;
+}
+
+.referral-success p {
+  color: var(--cream);
+  font-size: 1.1rem;
+}
