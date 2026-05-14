@@ -35,7 +35,6 @@ export const createReferrerContact = async ({ firstName, lastName, businessName,
       company: businessName || '',
       jobtitle: 'Referrer',
       lifecyclestage: 'other',
-      lead_source_detail: aggregator ? `Aggregator: ${aggregator}` : '',
     },
   };
 
