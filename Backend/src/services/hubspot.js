@@ -25,6 +25,40 @@ const hubspotFetch = async (path, options = {}) => {
 
 // ── CONTACTS ─────────────────────────────────────────────────
 
+export const createReferrerContact = async ({ firstName, lastName, businessName, aggregator, email, mobile }) => {
+  const body = {
+    properties: {
+      email,
+      firstname: firstName,
+      lastname: lastName,
+      phone: mobile,
+      company: businessName || '',
+      jobtitle: 'Referrer',
+      lifecyclestage: 'other',
+      lead_source_detail: aggregator ? `Aggregator: ${aggregator}` : '',
+    },
+  };
+
+  try {
+    const data = await hubspotFetch('/crm/v3/objects/contacts', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+
+    if (aggregator) {
+      await addHubSpotNote(data.id, `Registered as a Loan Fair referrer via website.<br>Aggregator: ${aggregator}${businessName ? `<br>Business: ${businessName}` : ''}`);
+    } else {
+      await addHubSpotNote(data.id, `Registered as a Loan Fair referrer via website.${businessName ? `<br>Business: ${businessName}` : ''}`);
+    }
+
+    return data.id;
+  } catch (err) {
+    // Contact may already exist — still a successful registration
+    if (err.message.includes('409') || err.message.includes('CONTACT_EXISTS')) return null;
+    throw err;
+  }
+};
+
 export const createHubSpotContact = async (client, user) => {
   const body = {
     properties: {

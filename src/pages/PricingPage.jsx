@@ -14,7 +14,7 @@ export default function PricingPage() {
           <p className="page-hero__label">Our fees</p>
           <h1 className="page-hero__headline">One fee. Fully disclosed.</h1>
           <p className="page-hero__sub">
-            We charge a single flat brokerage fee of $450. No hidden margin,
+            We charge a single flat brokerage fee of $550. No hidden margin,
             no percentage of your loan, no surprises.
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function PricingPage() {
   )
 }
 
-// The $450 figure — displayed prominently with payment options below
+// The $550 figure — displayed prominently with payment options below
 function FeeDisplay() {
   const ref = useScrollReveal()
   return (
@@ -51,7 +51,7 @@ function FeeDisplay() {
         <div className="pricing-fee__inner reveal" ref={ref}>
           {/* The big number */}
           <div className="pricing-fee__amount-wrap">
-            <span className="pricing-fee__amount">$450</span>
+            <span className="pricing-fee__amount">$550</span>
             <span className="pricing-fee__label">flat brokerage fee</span>
           </div>
 
@@ -101,7 +101,7 @@ function Comparison() {
           {/* Loan Fair column */}
           <CompareCard
             label="Loan Fair"
-            amount="$450"
+            amount="$550"
             items={[
               'Flat fee — same regardless of loan size',
               'Disclosed upfront before you proceed',
@@ -170,7 +170,7 @@ function WhatYouGet() {
     <section className="pricing-includes bg-green section-padding">
       <div className="container">
         <div className="pricing-includes__card reveal" ref={ref}>
-          <h2 className="pricing-includes__heading">What your $450 covers</h2>
+          <h2 className="pricing-includes__heading">What your $550 covers</h2>
           <ul className="pricing-includes__list">
             {items.map((item) => (
               <li key={item} className="pricing-includes__item">

@@ -125,16 +125,16 @@ function HowWeGetPaid() {
               </div>
               <div className="fee-example__row">
                 <span className="fee-example__desc">Loan Fair fee</span>
-                <span className="fee-example__amount fee-example__amount--highlight">$450</span>
+                <span className="fee-example__amount fee-example__amount--highlight">$550</span>
               </div>
               <div className="fee-example__row fee-example__row--total">
                 <span className="fee-example__desc">Total loan amount</span>
-                <span className="fee-example__amount">$45,950</span>
+                <span className="fee-example__amount">$46,050</span>
               </div>
             </div>
 
             <p className="fee-example__note">
-              Our $450 fee is fixed — it doesn't change based on your loan size or interest rate.
+              Our $550 fee is fixed — it doesn't change based on your loan size or interest rate.
               Both fees are disclosed in full before you sign anything.
             </p>
           </div>

@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.js';
 import enquiryRoutes from './routes/enquiries.js';
 import contactRoutes from './routes/contact.js';
 import referralRoutes from './routes/referral.js';
+import becomeReferrerRoutes from './routes/becomeReferrer.js';
 import lenderRoutes from './routes/lenders.js';
 import { crmRouter as crmRoutes, aiRouter as aiRoutes, webhookRouter as webhookRoutes, clientsRouter as clientRoutes, documentsRouter as documentRoutes, applicationsRouter as applicationRoutes, reportsRouter as reportRoutes } from './routes/other.js';
 
@@ -62,6 +63,9 @@ app.use('/api/v1/contact', contactRoutes);
 
 // Referral form (no auth required)
 app.use('/api/v1/referral', referralRoutes);
+
+// Become a referrer (no auth required)
+app.use('/api/v1/become-referrer', becomeReferrerRoutes);
 
 // Health check
 app.get('/health', (req, res) =>
