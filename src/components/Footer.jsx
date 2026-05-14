@@ -31,6 +31,7 @@ export default function Footer() {
               <Link to="/learn" className="footer__link">Learn</Link>
               <Link to="/faq" className="footer__link">FAQ</Link>
               <Link to="/referral" className="footer__link">Refer a Friend</Link>
+              <a href="#become-a-referrer" className="footer__link">Become a Referrer</a>
             </div>
             <div className="footer__col">
               <p className="footer__col-heading">Legal</p>
@@ -46,7 +47,7 @@ export default function Footer() {
         </div>
 
         {/* Become a Referrer */}
-        <BecomeReferrerForm />
+        <BecomeReferrerForm id="become-a-referrer" />
 
         {/* Bottom row: compliance + copyright */}
         <div className="footer__bottom">
@@ -62,7 +63,7 @@ export default function Footer() {
   )
 }
 
-function BecomeReferrerForm() {
+function BecomeReferrerForm({ id }) {
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -105,7 +106,7 @@ function BecomeReferrerForm() {
   }
 
   return (
-    <div className="footer__referrer">
+    <div id={id} className="footer__referrer">
       <div className="footer__referrer-inner">
         <div className="footer__referrer-header">
           <p className="footer__col-heading">Become a Referrer</p>
