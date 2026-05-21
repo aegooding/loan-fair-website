@@ -473,14 +473,8 @@ const handleSubmit = async (e) => {
               Thanks, {form.firstName}.
             </h2>
             <p className="modal__success-body">
-              We've received your enquiry and will be in touch — usually within 1 business day.
+              We're looking forward to helping you out. We'll be in touch soon.
             </p>
-            <div className="modal__whats-next">
-              <p className="modal__whats-next__heading">What Happens Next?</p>
-              <p className="modal__whats-next__body">
-                You will soon receive an email with a link to sign our Privacy Consent form. Signing this form gives us your permission to use the information you supplied us with to work with lenders to get the best rate for you.
-              </p>
-            </div>
             <button className="btn-primary modal__done-btn" onClick={close}>Done</button>
           </div>
         ) : (
