@@ -4,7 +4,7 @@ import { requireRole } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { runFullAssessment, scoreEnquiry, matchLenders, generateBrokerNarrative } from '../services/ai.js';
 import { createHubSpotContact, createHubSpotDeal, updateHubSpotDeal, addHubSpotNote, createEnquiryNote, createAfosNote } from '../services/hubspot.js';
-import { sendEnquiryNotification } from '../services/email.js';
+import { sendEnquiryNotification, sendEnquiryConfirmation } from '../services/email.js';
 import { queueWebhook } from './webhooks.js';
 import { generateReference, logAudit } from '../lib/utils.js';
 import { calculateCarLtv } from '../services/rateMatrix.js';
@@ -197,6 +197,7 @@ router.post('/', async (req, res, next) => {
     } catch (e) { console.error('HubSpot sync failed:', e.message); }
 
     sendEnquiryNotification(enquiry, client).catch((e) => console.error('Email notification failed:', e.message));
+    sendEnquiryConfirmation(enquiry, client).catch((e) => console.error('Confirmation email failed:', e.message));
 
     await logAudit(req.user.id, 'enquiry.created', enquiry.id, 'Enquiry');
     await queueWebhook('enquiry.created', enquiry);

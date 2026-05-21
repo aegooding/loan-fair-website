@@ -171,3 +171,119 @@ export async function sendEnquiryNotification(enquiry, client) {
     html,
   });
 }
+
+export async function sendEnquiryConfirmation(enquiry, client) {
+  const user = client.user;
+  const firstName = user?.name?.split(' ')[0] || 'there';
+  const loanType = enquiry.loanType?.replace(/_/g, ' ').toLowerCase() || 'loan';
+
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+    <body style="margin:0;padding:0;background:#f4f0e8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+      <div style="max-width:600px;margin:40px auto;background:#356852;border-radius:0 24px 0 24px;overflow:hidden">
+
+        <!-- Header -->
+        <div style="padding:40px 48px 32px">
+          <p style="margin:0 0 32px;font-size:22px;font-weight:800;color:#ecdbba;letter-spacing:-0.02em">Loan Fair</p>
+          <h1 style="margin:0 0 12px;font-size:32px;font-weight:800;color:#ecdbba;letter-spacing:-0.03em;line-height:1.2">
+            Thanks, ${firstName}.
+          </h1>
+          <p style="margin:0;font-size:17px;color:#d8b384;line-height:1.6">
+            We've received your ${loanType} enquiry and we're on it.
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:rgba(236,219,186,0.15);margin:0 48px"></div>
+
+        <!-- Body -->
+        <div style="padding:32px 48px">
+          <p style="margin:0 0 20px;font-size:15px;color:#ecdbba;line-height:1.7">
+            Your enquiry reference is:
+          </p>
+          <div style="background:rgba(236,219,186,0.1);border:1px solid rgba(236,219,186,0.25);border-radius:0 10px 0 10px;padding:14px 20px;margin-bottom:28px;display:inline-block">
+            <span style="font-size:18px;font-weight:700;color:#d8b384;letter-spacing:0.04em">${enquiry.reference}</span>
+          </div>
+
+          <p style="margin:0 0 24px;font-size:15px;color:#ecdbba;line-height:1.7">
+            Here's what happens next:
+          </p>
+
+          <!-- Steps -->
+          <div style="margin-bottom:12px">
+
+            <div style="display:flex;margin-bottom:16px">
+              <div style="min-width:32px;height:32px;background:#d8b384;border-radius:0 8px 0 8px;display:flex;align-items:center;justify-content:center;margin-right:16px;margin-top:2px">
+                <span style="font-size:14px;font-weight:800;color:#356852">1</span>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:15px;font-weight:700;color:#ecdbba">Document request — within 24 hours</p>
+                <p style="margin:0;font-size:14px;color:rgba(236,219,186,0.75);line-height:1.6">
+                  You'll receive an email asking you to securely upload a few documents. We'll need things like your driver's licence, recent payslips, and bank statements — we'll spell out exactly what's required.
+                </p>
+              </div>
+            </div>
+
+            <div style="display:flex;margin-bottom:16px">
+              <div style="min-width:32px;height:32px;background:#d8b384;border-radius:0 8px 0 8px;display:flex;align-items:center;justify-content:center;margin-right:16px;margin-top:2px">
+                <span style="font-size:14px;font-weight:800;color:#356852">2</span>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:15px;font-weight:700;color:#ecdbba">Lender recommendation</p>
+                <p style="margin:0;font-size:14px;color:rgba(236,219,186,0.75);line-height:1.6">
+                  Once we have your documents, we'll assess your situation and recommend the lender best suited to your needs — with a clear explanation of why.
+                </p>
+              </div>
+            </div>
+
+            <div style="display:flex">
+              <div style="min-width:32px;height:32px;background:#d8b384;border-radius:0 8px 0 8px;display:flex;align-items:center;justify-content:center;margin-right:16px;margin-top:2px">
+                <span style="font-size:14px;font-weight:800;color:#356852">3</span>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:15px;font-weight:700;color:#ecdbba">Submitting your application</p>
+                <p style="margin:0;font-size:14px;color:rgba(236,219,186,0.75);line-height:1.6">
+                  Once you're happy with our recommendation, we handle the application from end to end — submitting to the lender and keeping you updated every step of the way.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:rgba(236,219,186,0.15);margin:0 48px"></div>
+
+        <!-- Questions callout -->
+        <div style="padding:28px 48px 40px">
+          <p style="margin:0 0 8px;font-size:15px;color:#ecdbba;line-height:1.7">
+            Got questions in the meantime? Just reply to this email or reach us at
+            <a href="mailto:hello@loanfair.com.au" style="color:#d8b384;text-decoration:none">hello@loanfair.com.au</a>.
+            We're a real team — you'll hear back from a real person.
+          </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#2d5a45;padding:24px 48px">
+          <p style="margin:0 0 4px;font-size:13px;color:rgba(236,219,186,0.5);line-height:1.6">
+            Loan Fair &mdash; Finance that's actually on your side.
+          </p>
+          <p style="margin:0;font-size:11px;color:rgba(236,219,186,0.3);line-height:1.6">
+            This email was sent because you submitted an enquiry at loanfair.com.au. General advice only — not financial advice. Please read our
+            <a href="https://loanfair.com.au/privacy" style="color:rgba(236,219,186,0.4);text-decoration:none">Privacy Policy</a>.
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>`;
+
+  await resend.emails.send({
+    from: 'Loan Fair <hello@loanfair.com.au>',
+    to: user.email,
+    subject: `We've received your enquiry, ${firstName}.`,
+    html,
+  });
+}
