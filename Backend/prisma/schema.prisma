@@ -244,6 +244,19 @@ model Client {
   partnerIncome          Float?
   partnerIncomeFrequency String?
 
+  // ── Assets ────────────────────────────────
+  savingsAmount      Float?
+  savingsInstitution String?
+  sharesValue        Float?
+  otherAssets        String?
+
+  // ── Liabilities ───────────────────────────
+  creditCardLimit          Float?
+  creditCardBalance        Float?
+  personalLoanBalance      Float?
+  personalLoanRepayments   Float?
+  otherLiabilities         String?
+
   // ── Expenses ──────────────────────────────
   monthlyExpenses              Float?
   monthlyFixedExpenses         Float?

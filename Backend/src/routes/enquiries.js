@@ -115,6 +115,17 @@ router.post('/', async (req, res, next) => {
           otherIncome:            clientData.partnerAnnualIncome   != null ? Number(clientData.partnerAnnualIncome)   : undefined,
           partnerIncome:          clientData.partnerIncome         != null ? Number(clientData.partnerIncome)         : undefined,
           partnerIncomeFrequency: clientData.partnerIncomeFrequency || undefined,
+          // Assets
+          savingsAmount:      clientData.savingsAmount      != null ? Number(clientData.savingsAmount)      : undefined,
+          savingsInstitution: clientData.savingsInstitution || undefined,
+          sharesValue:        clientData.sharesValue        != null ? Number(clientData.sharesValue)        : undefined,
+          otherAssets:        clientData.otherAssets        || undefined,
+          // Liabilities
+          creditCardLimit:        clientData.creditCardLimit        != null ? Number(clientData.creditCardLimit)        : undefined,
+          creditCardBalance:      clientData.creditCardBalance      != null ? Number(clientData.creditCardBalance)      : undefined,
+          personalLoanBalance:    clientData.personalLoanBalance    != null ? Number(clientData.personalLoanBalance)    : undefined,
+          personalLoanRepayments: clientData.personalLoanRepayments != null ? Number(clientData.personalLoanRepayments) : undefined,
+          otherLiabilities:       clientData.otherLiabilities       || undefined,
           // Expenses
           monthlyExpenses:              clientData.monthlyExpenses              != null ? Number(clientData.monthlyExpenses)              : undefined,
           monthlyFixedExpenses:         clientData.monthlyFixedExpenses         != null ? Number(clientData.monthlyFixedExpenses)         : undefined,
