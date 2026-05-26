@@ -44,6 +44,12 @@
   gap: 1.5rem;
 }
 
+.pricing-fee__options--single {
+  grid-template-columns: 1fr;
+  max-width: 50%;
+  margin-right: auto;
+}
+
 .pricing-option-card {
   background: rgba(53, 104, 82, 0.08);
   border: 1px solid rgba(53, 104, 82, 0.15);

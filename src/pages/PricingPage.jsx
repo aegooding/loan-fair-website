@@ -55,14 +55,10 @@ function FeeDisplay() {
             <span className="pricing-fee__label">flat brokerage fee</span>
           </div>
 
-          {/* Two payment options side by side */}
-          <div className="pricing-fee__options">
+          {/* Payment option */}
+          <div className="pricing-fee__options pricing-fee__options--single">
             <OptionCard
-              title="Pay it upfront"
-              body="You can pay the fee directly to us at settlement — it's simply a one-off payment separate from your loan."
-            />
-            <OptionCard
-              title="Add it to your loan"
+              title="How the fee is paid"
               body="Most clients choose to have the fee added to the loan amount. This is standard practice in car finance and means nothing extra out of pocket today."
               highlight
             />
