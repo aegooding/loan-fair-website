@@ -14,7 +14,7 @@ export default function PricingPage() {
           <p className="page-hero__label">Our fees</p>
           <h1 className="page-hero__headline">One fee. Fully disclosed.</h1>
           <p className="page-hero__sub">
-            We charge a single flat brokerage fee of $550. No hidden margin,
+            We charge a single flat brokerage fee of $750. No hidden margin,
             no percentage of your loan, no surprises.
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function PricingPage() {
   )
 }
 
-// The $550 figure — displayed prominently with payment options below
+// The $750 figure — displayed prominently with payment options below
 function FeeDisplay() {
   const ref = useScrollReveal()
   return (
@@ -51,7 +51,7 @@ function FeeDisplay() {
         <div className="pricing-fee__inner reveal" ref={ref}>
           {/* The big number */}
           <div className="pricing-fee__amount-wrap">
-            <span className="pricing-fee__amount">$550</span>
+            <span className="pricing-fee__amount">$750</span>
             <span className="pricing-fee__label">flat brokerage fee</span>
           </div>
 
@@ -83,7 +83,7 @@ function OptionCard({ title, body, highlight }) {
   )
 }
 
-// Side-by-side comparison: Loan Fair $450 vs industry average $980
+// Side-by-side comparison: Loan Fair $750 vs industry average $1,200
 function Comparison() {
   const ref = useScrollReveal()
   return (
@@ -92,7 +92,7 @@ function Comparison() {
         <div className="pricing-compare__intro reveal" ref={ref}>
           <h2 className="pricing-compare__heading">How we compare</h2>
           <p className="pricing-compare__sub">
-            The average disclosed brokerage fee for car finance in Australia is <strong>$980</strong>.
+            The average disclosed brokerage fee for car finance in Australia is <strong>$1,200</strong>.
             Most brokers charge this or more — and that's before accounting for any undisclosed margin.
           </p>
         </div>
@@ -101,7 +101,7 @@ function Comparison() {
           {/* Loan Fair column */}
           <CompareCard
             label="Loan Fair"
-            amount="$550"
+            amount="$750"
             items={[
               'Flat fee — same regardless of loan size',
               'Disclosed upfront before you proceed',
@@ -114,7 +114,7 @@ function Comparison() {
           {/* Industry average column */}
           <CompareCard
             label="Typical broker"
-            amount="$980"
+            amount="$1,200"
             note="industry average*"
             items={[
               'Often scales with loan size',
@@ -170,7 +170,7 @@ function WhatYouGet() {
     <section className="pricing-includes bg-green section-padding">
       <div className="container">
         <div className="pricing-includes__card reveal" ref={ref}>
-          <h2 className="pricing-includes__heading">What your $550 covers</h2>
+          <h2 className="pricing-includes__heading">What your $750 covers</h2>
           <ul className="pricing-includes__list">
             {items.map((item) => (
               <li key={item} className="pricing-includes__item">
